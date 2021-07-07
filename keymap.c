@@ -12,7 +12,8 @@ enum layer {
 };
 
 enum custom_keycode {
-    LOCK = SAFE_RANGE,
+    ID_CAPS = SAFE_RANGE,
+    LOCK,
 };
 
 #define LT_ESC LT(NUM, KC_ESC)
@@ -102,7 +103,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [NAV] = LAYOUT_split_3x5_3(
         DM_REC1, DM_PLY1, TG(GAM), XXXXXXX, RESET,                     KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_VOLU,
         OSM_ALT, OSM_GUI, OSM_SFT, OSM_CTL, XXXXXXX,                   KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD,
-        XXXXXXX, XXXXXXX, LOCK,    TG(MOU), XXXXXXX,                   XXXXXXX, KC_INS,  KC_CAPS, KC_APP,  KC_MUTE,
+        XXXXXXX, LOCK,    ID_CAPS, TG(MOU), XXXXXXX,                   XXXXXXX, KC_INS,  KC_CAPS, KC_APP,  KC_MUTE,
                                    _______, _______, KC_DEL,  KC_BSPC, _______, _______
     ),
 
@@ -157,6 +158,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     bool pressed = record->event.pressed;
     uint8_t tap = record->tap.count;
     bool layer_tap = keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX;
+    bool mod_tap = keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX;
+    if ((layer_tap || mod_tap) && tap)
+        keycode &= 0xFF;
+    else if (keycode >= QK_FUNCTION && keycode <= QK_FUNCTION_MAX && tap)
+        keycode = LSFT(keycode & 0xFF);
+
+    static bool identifier_caps = false;
+    bool is_identifier = (keycode >= KC_A && keycode <= KC_0) || keycode == KC_UNDS || keycode == KC_BSPC || (layer_tap && !tap);
+    if ((keycode == ID_CAPS || (identifier_caps && !is_identifier)) && pressed) {
+        identifier_caps = !identifier_caps;
+        tap_code(KC_CAPS);
+    }
 
     static bool lock_next = false;
     static layer_state_t locked_layers = 0;
@@ -165,11 +178,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (layer_tap && !tap)
             locked_layers |= 1UL << ((keycode >> 8) & 0xF);
         return false;
-    } else if (keycode == LOCK) {
-        if (!pressed)
-            lock_next = true;
-        return false;
-    } else if (locked_layers && (layer_tap && tap ? keycode & 0xFF : keycode) == KC_ESC && pressed) {
+    } else if (keycode == LOCK && !pressed) {
+        lock_next = true;
+    } else if (locked_layers && keycode == KC_ESC && pressed) {
         layer_off(get_highest_layer(locked_layers));
         locked_layers &= layer_state;
         return false;
