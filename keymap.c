@@ -24,6 +24,7 @@ enum custom_keycodes {
 #define LT_SPC LT(SYM, KC_SPC)
 #define LT_ENT LT(NUM, KC_ENT)
 #define LT_GESC LT(GNUM, KC_ESC)
+#define LT_GENT LT(GNUM, KC_ENT)
 
 #define MT_A LALT_T(KC_A)
 #define MT_R LGUI_T(KC_R)
@@ -44,10 +45,10 @@ enum custom_keycodes {
 #define MT_MINS RGUI_T(KC_MINS)
 #define MT_COLN MT_SHIFTED(KC_LALT, KC_COLN)
 
-#define MT_F5 LALT_T(KC_F5)
+#define MT_F11 LALT_T(KC_F11)
 #define MT_F6 LGUI_T(KC_F6)
-#define MT_F7 LSFT_T(KC_F7)
-#define MT_F8 LCTL_T(KC_F8)
+#define MT_F5 LSFT_T(KC_F5)
+#define MT_F4 LCTL_T(KC_F4)
 #define MT_4 RCTL_T(KC_4)
 #define MT_5 RSFT_T(KC_5)
 #define MT_6 RGUI_T(KC_6)
@@ -120,9 +121,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     LAYER(NUM,
-        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_PSCR,                   XXXXXXX, KC_7,    KC_8,    KC_9,    XXXXXXX,
-        MT_F5,   MT_F6,   MT_F7,   MT_F8,   KC_SLCK,                   TG(KP),  MT_4,    MT_5,    MT_6,    MT_0,
-        KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_PAUS,                   XXXXXXX, KC_1,    KC_2,    KC_3,    OSM_GUI,
+        KC_F12,  KC_F9,   KC_F8,   KC_F7,   KC_PSCR,                   XXXXXXX, KC_7,    KC_8,    KC_9,    XXXXXXX,
+        MT_F11,  MT_F6,   MT_F5,   MT_F4,   KC_SLCK,                   TG(KP),  MT_4,    MT_5,    MT_6,    MT_0,
+        KC_F10,  KC_F3,   KC_F2,   KC_F1,   KC_PAUS,                   XXXXXXX, KC_1,    KC_2,    KC_3,    OSM_GUI,
                                    KC_ESC,  _______, _______, _______, _______, KC_ENT
     ),
 
@@ -157,15 +158,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYER(GAM,
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,                      KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_VOLU,
         KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,                      KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD,
-        KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,                      DM_PLY1, KC_BTN1, KC_BTN3, KC_BTN2, KC_MUTE,
-                                   LT_GESC, KC_SPC,  LOCK,    KC_BSPC, TG(GAM), KC_ENT
+        KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,                      XXXXXXX, KC_BTN1, KC_BTN3, KC_BTN2, KC_MUTE,
+                                   LT_GESC, KC_SPC,  LOCK,    KC_BSPC, TG(GAM), LT_GENT
     ),
 
     LAYER(GNUM,
-        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
-        KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F11,
-        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,                      _______, _______, _______, _______, KC_F12,
-                                   _______, _______, _______, _______, _______, _______
+        DM_PLY1, KC_9,    KC_8,    KC_7,    KC_T,                      XXXXXXX, KC_F7,   KC_F8,   KC_F9,   KC_F12,
+        KC_0,    KC_6,    KC_5,    KC_4,    KC_G,                      XXXXXXX, KC_F4,   KC_F5,   KC_F6,   KC_F11,
+        _______, KC_3,    KC_2,    KC_1,    KC_B,                      XXXXXXX, KC_F1,   KC_F2,   KC_F3,   KC_F10,
+                                   KC_ESC,  _______, _______, _______, _______, KC_ENT
     ),
 };
 
@@ -174,8 +175,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         state &= ~(1UL << KP);
     if (IS_LAYER_OFF_STATE(state, NAV))
         state &= ~(1UL << MOU);
-    if (IS_LAYER_OFF_STATE(state, GAM))
-        state &= ~(1UL << GNUM);
 
     bool mirror = IS_LAYER_ON_STATE(state, MIRROR);
     state &= (1UL << MIRROR) - 1;
