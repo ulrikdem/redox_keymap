@@ -59,18 +59,18 @@ enum custom_keycodes {
 #define OSM_SFT OSM(MOD_LSFT)
 #define OSM_CTL OSM(MOD_LCTL)
 
-#define LAYOUT_split_3x6_3( \
-    k00, k01, k02, k03, k04, k05,           k06, k07, k08, k09, k10, k11, \
-    k12, k13, k14, k15, k16, k17,           k18, k19, k20, k21, k22, k23, \
-    k24, k25, k26, k27, k28, k29,           k30, k31, k32, k33, k34, k35, \
-                        k36, k37, k38, k39, k40, k41 \
+#define LAYOUT_split_3x5_4( \
+    k00, k01, k02, k03, k04,           k05, k06, k07, k08, k09, \
+    k10, k11, k12, k13, k14,           k15, k16, k17, k18, k19, \
+    k20, k21, k22, k23, k24,           k25, k26, k27, k28, k29, \
+              k30, k31, k32, k33, k34, k35, k36, k37 \
 ) \
     LAYOUT( \
         KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                             KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, \
-        k00,   k01,   k02,   k03,   k04,   k05,   KC_NO,               KC_NO, k06,   k07,   k08,   k09,   k10,   k11, \
-        k12,   k13,   k14,   k15,   k16,   k17,   KC_NO,               KC_NO, k18,   k19,   k20,   k21,   k22,   k23, \
-        k24,   k25,   k26,   k27,   k28,   k29,   KC_NO, KC_NO, KC_NO, KC_NO, k30,   k31,   k32,   k33,   k34,   k35, \
-        KC_NO, KC_NO, KC_NO, KC_NO,        k36,   k37,   k38,   k39,   k40,   k41,          KC_NO, KC_NO, KC_NO, KC_NO \
+        KC_NO, k00,   k01,   k02,   k03,   k04,   KC_NO,               KC_NO, k05,   k06,   k07,   k08,   k09,   KC_NO, \
+        KC_NO, k10,   k11,   k12,   k13,   k14,   KC_NO,               KC_NO, k15,   k16,   k17,   k18,   k19,   KC_NO, \
+        KC_NO, k20,   k21,   k22,   k23,   k24,   KC_NO, KC_NO, KC_NO, KC_NO, k25,   k26,   k27,   k28,   k29,   KC_NO, \
+        KC_NO, KC_NO, KC_NO, k30,          k31,   k32,   k33,   k34,   k35,   k36,          k37,   KC_NO, KC_NO, KC_NO \
     )
 
 #define LAYER(layer, \
@@ -79,17 +79,17 @@ enum custom_keycodes {
     k20, k21, k22, k23, k24,           k25, k26, k27, k28, k29, \
                    k30, k31, k32, k33, k34, k35 \
 ) \
-    [layer] = LAYOUT_split_3x6_3( \
-        KC_NO,       k00, k01, k02, k03, k04,           k05, k06, k07, k08, k09, KC_NO, \
-        OSL(MIRROR), k10, k11, k12, k13, k14,           k15, k16, k17, k18, k19, OSL(MIRROR), \
-        KC_NO,       k20, k21, k22, k23, k24,           k25, k26, k27, k28, k29, KC_NO, \
-                                    k30, k31, k32, k33, k34, k35 \
+    [layer] = LAYOUT_split_3x5_4( \
+        k00, k01, k02, k03, k04,           k05, k06, k07, k08, k09, \
+        k10, k11, k12, k13, k14,           k15, k16, k17, k18, k19, \
+        k20, k21, k22, k23, k24,           k25, k26, k27, k28, k29, \
+          OSL(MIRROR), k30, k31, k32, k33, k34, k35, OSL(MIRROR) \
     ), \
-    [layer + MIRROR] = LAYOUT_split_3x6_3( \
-        KC_NO,      M(k09), M(k08), M(k07), M(k06), M(k05),                 M(k04), M(k03), M(k02), M(k01), M(k00), KC_NO, \
-        MO(MIRROR), M(k19), M(k18), M(k17), M(k16), M(k15),                 M(k14), M(k13), M(k12), M(k11), M(k10), MO(MIRROR), \
-        KC_NO,      M(k29), M(k28), M(k27), M(k26), M(k25),                 M(k24), M(k23), M(k22), M(k21), M(k20), KC_NO, \
-                                            M(k35), M(k34), M(k33), M(k32), M(k31), M(k30) \
+    [layer + MIRROR] = LAYOUT_split_3x5_4( \
+        M(k09), M(k08), M(k07), M(k06), M(k05),                 M(k04), M(k03), M(k02), M(k01), M(k00), \
+        M(k19), M(k18), M(k17), M(k16), M(k15),                 M(k14), M(k13), M(k12), M(k11), M(k10), \
+        M(k29), M(k28), M(k27), M(k26), M(k25),                 M(k24), M(k23), M(k22), M(k21), M(k20), \
+                    MO(MIRROR), M(k35), M(k34), M(k33), M(k32), M(k31), M(k30), MO(MIRROR) \
     )
 
 #undef M
@@ -170,16 +170,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
+static uint8_t mirror_layer = MIRROR;
+
 layer_state_t layer_state_set_user(layer_state_t state) {
     if (IS_LAYER_OFF_STATE(state, NUM))
         state &= ~(1UL << KP);
     if (IS_LAYER_OFF_STATE(state, NAV))
         state &= ~(1UL << MOU);
 
-    bool mirror = IS_LAYER_ON_STATE(state, MIRROR);
+    bool mirror = IS_LAYER_ON_STATE(state, mirror_layer);
     state &= (1UL << MIRROR) - 1;
     if (mirror)
         state |= (state | 1) << MIRROR;
+    else if (IS_LAYER_ON(mirror_layer))
+        mirror_layer = MIRROR;
 
     return state;
 }
@@ -205,6 +209,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         keycode &= 0xFF;
     else if (IN_RANGE(keycode, QK_FUNCTION) && record->tap.count)
         keycode = LSFT(keycode & 0xFF);
+
+    if (IN_RANGE(keycode, QK_LAYER_TAP) && pressed
+            && get_oneshot_layer() == MIRROR && get_oneshot_layer_state() == ONESHOT_OTHER_KEY_PRESSED)
+        mirror_layer = (keycode >> 8) & 0xF;
+    else if (keycode == OSL(MIRROR) || keycode == MO(MIRROR))
+        mirror_layer = MIRROR;
 
     static bool identifier_caps = false;
     bool is_identifier = (keycode >= KC_A && keycode <= KC_0) || keycode == KC_UNDS || keycode == KC_BSPC
