@@ -35,6 +35,15 @@ enum custom_keycodes {
 #define MT_I RGUI_T(KC_I)
 #define MT_O LALT_T(KC_O)
 
+#define MT_F11 LALT_T(KC_F11)
+#define MT_F6 LGUI_T(KC_F6)
+#define MT_F5 LSFT_T(KC_F5)
+#define MT_F4 LCTL_T(KC_F4)
+#define MT_4 RCTL_T(KC_4)
+#define MT_5 RSFT_T(KC_5)
+#define MT_6 RGUI_T(KC_6)
+#define MT_0 LALT_T(KC_0)
+
 #define MT_SHIFTED(mod, kc) F((MOD_INDEX(mod) << 8) | ((kc) & 0xFF))
 #define MT_BSLS LALT_T(KC_BSLS)
 #define MT_UNDS MT_SHIFTED(KC_LGUI, KC_UNDS)
@@ -44,15 +53,6 @@ enum custom_keycodes {
 #define MT_RPRN MT_SHIFTED(KC_RSFT, KC_RPRN)
 #define MT_MINS RGUI_T(KC_MINS)
 #define MT_COLN MT_SHIFTED(KC_LALT, KC_COLN)
-
-#define MT_F11 LALT_T(KC_F11)
-#define MT_F6 LGUI_T(KC_F6)
-#define MT_F5 LSFT_T(KC_F5)
-#define MT_F4 LCTL_T(KC_F4)
-#define MT_4 RCTL_T(KC_4)
-#define MT_5 RSFT_T(KC_5)
-#define MT_6 RGUI_T(KC_6)
-#define MT_0 LALT_T(KC_0)
 
 #define OSM_ALT OSM(MOD_LALT)
 #define OSM_GUI OSM(MOD_LGUI)
