@@ -44,15 +44,14 @@ enum custom_keycodes {
 #define MT_6 RGUI_T(KC_6)
 #define MT_0 LALT_T(KC_0)
 
-#define MT_SHIFTED(mod, kc) F((MOD_INDEX(mod) << 8) | ((kc) & 0xFF))
-#define MT_BSLS LALT_T(KC_BSLS)
-#define MT_UNDS MT_SHIFTED(KC_LGUI, KC_UNDS)
-#define MT_LCBR MT_SHIFTED(KC_LSFT, KC_LCBR)
-#define MT_RCBR MT_SHIFTED(KC_LCTL, KC_RCBR)
-#define MT_LPRN MT_SHIFTED(KC_RCTL, KC_LPRN)
-#define MT_RPRN MT_SHIFTED(KC_RSFT, KC_RPRN)
-#define MT_MINS RGUI_T(KC_MINS)
-#define MT_COLN MT_SHIFTED(KC_LALT, KC_COLN)
+#define MT_BSLS LALT_T(ENCODE_SYM(KC_BSLS))
+#define MT_UNDS LGUI_T(ENCODE_SYM(KC_UNDS))
+#define MT_LCBR LSFT_T(ENCODE_SYM(KC_LCBR))
+#define MT_RCBR LCTL_T(ENCODE_SYM(KC_RCBR))
+#define MT_LPRN RCTL_T(ENCODE_SYM(KC_LPRN))
+#define MT_RPRN RSFT_T(ENCODE_SYM(KC_RPRN))
+#define MT_MINS RGUI_T(ENCODE_SYM(KC_MINS))
+#define MT_COLN LALT_T(ENCODE_SYM(KC_COLN))
 
 #define OSM_ALT OSM(MOD_LALT)
 #define OSM_GUI OSM(MOD_LGUI)
@@ -102,15 +101,15 @@ enum custom_keycodes {
         (kc) \
     )
 
-#define MIRROR_KEY(kc, left, right) REPLACE_KEY(kc, left, right) REPLACE_KEY(kc, right, left)
+#define MIRROR_KEY(kc, left, right) REPLACE_KEY((uint16_t)(kc), left, right) REPLACE_KEY((uint16_t)(kc), right, left)
 #define REPLACE_KEY(kc, left, right) \
-    ( \
-        IN_RANGE(kc, QK_LAYER_TAP) || IN_RANGE(kc, QK_MOD_TAP) ? (kc) & 0xFF : \
-        IN_RANGE(kc, QK_FUNCTION) ? LSFT((kc) & 0xFF) : \
-        (kc) \
-    ) == (left) ? ((kc) & 0xFF00) | ((right) & 0xFF) :
+    (kc) == (left) ? (right) : \
+    (IN_RANGE(kc, QK_LAYER_TAP) || IN_RANGE(kc, QK_MOD_TAP)) \
+        && ((kc) & 0xFF) == ENCODE_SYM(left) ? ((kc) & 0xFF00) | ENCODE_SYM(right) :
 
-#define IN_RANGE(kc, range) ((uint16_t)(kc) >= range && (uint16_t)(kc) <= range##_MAX)
+#define IN_RANGE(kc, range) ((kc) >= range && (kc) <= range##_MAX)
+
+#define ENCODE_SYM(kc) ((kc) >= KC_EXLM && (kc) <= KC_QUES ? (kc) - KC_EXLM + KC_FN0 : (kc))
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYER(BASE,
@@ -188,26 +187,13 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
     return IN_RANGE(keycode, QK_LAYER_TAP);
 }
 
-uint16_t keymap_function_id_to_action(uint16_t id) {
-    return ACTION_FUNCTION_TAP(id);
-}
-
-void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
-    if (record->tap.count)
-        (record->event.pressed ? register_code16 : unregister_code16)(LSFT(id));
-    else
-        (record->event.pressed ? register_mods : unregister_mods)(1 << (opt & ~FUNC_TAP));
-}
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     bool pressed = record->event.pressed;
     if ((IN_RANGE(keycode, QK_LAYER_TAP) || IN_RANGE(keycode, QK_MOD_TAP)) && record->tap.count)
         keycode &= 0xFF;
-    else if (IN_RANGE(keycode, QK_FUNCTION) && record->tap.count)
-        keycode = LSFT(keycode & 0xFF);
 
     static bool identifier_caps = false;
-    bool is_identifier = (keycode >= KC_A && keycode <= KC_0) || keycode == KC_UNDS || keycode == KC_BSPC
+    bool is_identifier = (keycode >= KC_A && keycode <= KC_0) || keycode == ENCODE_SYM(KC_UNDS) || keycode == KC_BSPC
         || IN_RANGE(keycode, QK_LAYER_TAP) || IN_RANGE(keycode, QK_ONE_SHOT_LAYER) || IN_RANGE(keycode, QK_MOMENTARY);
     if ((keycode == ID_CAPS || (identifier_caps && !is_identifier)) && pressed) {
         identifier_caps = !identifier_caps;
@@ -226,6 +212,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     } else if (locked_layers && keycode == KC_ESC && pressed) {
         layer_off(get_highest_layer(locked_layers));
         locked_layers &= layer_state;
+        return false;
+    }
+
+    if (IS_FN(keycode)) {
+        (pressed ? register_code16 : unregister_code16)(FN_INDEX(keycode) + KC_EXLM);
         return false;
     }
 
