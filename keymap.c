@@ -136,8 +136,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     LAYER(KP,
-        _______, _______, _______, _______, _______,                   KC_PAST, KC_P7,   KC_P8,   KC_P9,   KC_PDOT,
-        _______, _______, _______, _______, KC_NLCK,                   KC_PMNS, KC_P4,   KC_P5,   KC_P6,   KC_P0,
+        _______, _______, _______, _______, _______,                   KC_PMNS, KC_P7,   KC_P8,   KC_P9,   KC_PDOT,
+        _______, _______, _______, _______, KC_NLCK,                   KC_PAST, KC_P4,   KC_P5,   KC_P6,   KC_P0,
         _______, _______, _______, _______, _______,                   KC_PPLS, KC_P1,   KC_P2,   KC_P3,   LT_PSLS,
                                    _______, _______, _______, _______, _______, KC_PENT
     ),
@@ -171,9 +171,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     LAYER(GNUM,
-        DM_PLY1, KC_9,    KC_8,    KC_7,    KC_T,                      XXXXXXX, KC_F7,   KC_F8,   KC_F9,   KC_F12,
-        KC_0,    KC_6,    KC_5,    KC_4,    KC_G,                      XXXXXXX, KC_F4,   KC_F5,   KC_F6,   KC_F11,
-        OSL_MIR, KC_3,    KC_2,    KC_1,    KC_B,                      XXXXXXX, KC_F1,   KC_F2,   KC_F3,   LT_F10,
+        DM_PLY1, KC_9,    KC_8,    KC_7,    KC_T,                      KC_Y,    KC_F7,   KC_F8,   KC_F9,   KC_F12,
+        KC_0,    KC_6,    KC_5,    KC_4,    KC_G,                      KC_H,    KC_F4,   KC_F5,   KC_F6,   KC_F11,
+        OSL_MIR, KC_3,    KC_2,    KC_1,    KC_B,                      KC_N,    KC_F1,   KC_F2,   KC_F3,   LT_F10,
                                    KC_ESC,  _______, _______, _______, _______, KC_ENT
     ),
 };
