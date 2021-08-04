@@ -63,7 +63,6 @@ enum custom_keycodes {
 #define OSM_SFT OSM(MOD_LSFT)
 #define OSM_CTL OSM(MOD_LCTL)
 #define OSL_MIR OSL(MIR)
-#define LT_MUTE LT(MIR, KC_MUTE)
 
 #define LAYOUT_split_3x5_3( \
     k00, k01, k02, k03, k04,           k05, k06, k07, k08, k09, \
@@ -150,23 +149,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     LAYER(NAV,
-        DM_REC1, DM_PLY1, TG(GAM), XXXXXXX, RESET,                     KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_VOLU,
-        OSM_ALT, OSM_GUI, OSM_SFT, OSM_CTL, XXXXXXX,                   KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD,
-        OSL_MIR, LOCK,    ID_CAPS, TG(MOU), XXXXXXX,                   XXXXXXX, KC_INS,  KC_CAPS, KC_APP,  LT_MUTE,
+        DM_REC1, DM_PLY1, TG(GAM), XXXXXXX, RESET,                     KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP,
+        OSM_ALT, OSM_GUI, OSM_SFT, OSM_CTL, XXXXXXX,                   KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN,
+        OSL_MIR, LOCK,    ID_CAPS, TG(MOU), XXXXXXX,                   KC_MUTE, KC_INS,  KC_CAPS, KC_APP,  OSL_MIR,
                                    _______, _______, KC_DEL,  KC_BSPC, _______, _______
     ),
 
     LAYER(MOU,
-        _______, _______, _______, _______, _______,                   KC_WH_U, KC_WH_L, KC_MS_U, KC_WH_R, _______,
-        _______, _______, _______, _______, _______,                   KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, _______,
+        _______, _______, _______, _______, _______,                   _______, KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U,
+        _______, _______, _______, _______, _______,                   _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D,
         _______, _______, _______, _______, _______,                   _______, KC_BTN4, KC_BTN5, _______, _______,
                                    _______, _______, _______, KC_BTN3, KC_BTN1, KC_BTN2
     ),
 
     LAYER(GAM,
-        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,                      KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_VOLU,
-        KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,                      KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD,
-        KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,                      XXXXXXX, KC_BTN1, KC_BTN3, KC_BTN2, KC_MUTE,
+        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,                      KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP,
+        KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,                      KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN,
+        KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,                      KC_MUTE, KC_BTN1, KC_BTN3, KC_BTN2, XXXXXXX,
                                    LT_GESC, KC_SPC,  LOCK,    KC_BSPC, TG(GAM), LT_GENT
     ),
 
