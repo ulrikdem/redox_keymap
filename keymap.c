@@ -2,9 +2,9 @@
 
 enum layers {
     BASE,
+    SYM,
     NUM,
     KP,
-    SYM,
     NAV,
     MOU,
     GAM,
@@ -37,6 +37,16 @@ enum custom_keycodes {
 #define LT_Z LT(MIR, KC_Z)
 #define LT_SLSH LT(MIR, KC_SLSH)
 
+#define MT_BSLS LGUI_T(ENCODE_SYM(KC_BSLS))
+#define MT_LCBR LSFT_T(ENCODE_SYM(KC_LCBR))
+#define MT_RCBR LCTL_T(ENCODE_SYM(KC_RCBR))
+#define MT_ASTR LALT_T(ENCODE_SYM(KC_ASTR))
+#define MT_QUES LALT_T(ENCODE_SYM(KC_QUES))
+#define MT_LPRN RCTL_T(ENCODE_SYM(KC_LPRN))
+#define MT_RPRN RSFT_T(ENCODE_SYM(KC_RPRN))
+#define MT_COLN RGUI_T(ENCODE_SYM(KC_COLN))
+#define LT_RALT LT(MIR, KC_RALT)
+
 #define MT_F11 LGUI_T(KC_F11)
 #define LT_F6 LT(SYM, KC_F6)
 #define MT_F5 LSFT_T(KC_F5)
@@ -49,16 +59,6 @@ enum custom_keycodes {
 #define MT_0 RGUI_T(KC_0)
 #define LT_F10 LT(MIR, KC_F10)
 #define LT_PSLS LT(MIR, KC_PSLS)
-
-#define MT_BSLS LGUI_T(ENCODE_SYM(KC_BSLS))
-#define MT_LCBR LSFT_T(ENCODE_SYM(KC_LCBR))
-#define MT_RCBR LCTL_T(ENCODE_SYM(KC_RCBR))
-#define MT_ASTR LALT_T(ENCODE_SYM(KC_ASTR))
-#define MT_QUES LALT_T(ENCODE_SYM(KC_QUES))
-#define MT_LPRN RCTL_T(ENCODE_SYM(KC_LPRN))
-#define MT_RPRN RSFT_T(ENCODE_SYM(KC_RPRN))
-#define MT_COLN RGUI_T(ENCODE_SYM(KC_COLN))
-#define LT_RALT LT(MIR, KC_RALT)
 
 #define OSM_GUI OSM(MOD_LGUI)
 #define OSL_SYM OSL(SYM)
@@ -134,6 +134,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                    LT_ESC,  LT_TAB,  KC_DEL,  KC_BSPC, LT_SPC,  LT_ENT
     ),
 
+    LAYER(SYM,
+        KC_HASH, KC_AT,   KC_LBRC, KC_RBRC, KC_CIRC,                   KC_EXLM, KC_LT,   KC_GT,   KC_EQL,  KC_AMPR,
+        MT_BSLS, KC_UNDS, MT_LCBR, MT_RCBR, MT_ASTR,                   MT_QUES, MT_LPRN, MT_RPRN, KC_MINS, MT_COLN,
+        LT_RALT, KC_DLR,  KC_PIPE, KC_TILD, KC_GRV,                    KC_PLUS, KC_PERC, KC_DQUO, KC_QUOT, LT_RALT,
+                                   _______, _______, _______, _______, _______, _______
+    ),
+
     LAYER(NUM,
         KC_F12,  KC_F9,   KC_F8,   KC_F7,   KC_PSCR,                   XXXXXXX, KC_7,    KC_8,    KC_9,    TG(KP),
         MT_F11,  LT_F6,   MT_F5,   MT_F4,   MT_SLCK,                   OSM_ALT, MT_4,    MT_5,    LT_6,    MT_0,
@@ -146,13 +153,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, MT_NLCK,                   KC_PAST, KC_P4,   KC_P5,   KC_P6,   KC_P0,
         _______, _______, _______, _______, _______,                   KC_PPLS, KC_P1,   KC_P2,   KC_P3,   LT_PSLS,
                                    _______, _______, _______, _______, _______, KC_PENT
-    ),
-
-    LAYER(SYM,
-        KC_HASH, KC_AT,   KC_LBRC, KC_RBRC, KC_CIRC,                   KC_EXLM, KC_LT,   KC_GT,   KC_EQL,  KC_AMPR,
-        MT_BSLS, KC_UNDS, MT_LCBR, MT_RCBR, MT_ASTR,                   MT_QUES, MT_LPRN, MT_RPRN, KC_MINS, MT_COLN,
-        LT_RALT, KC_DLR,  KC_PIPE, KC_TILD, KC_GRV,                    KC_PLUS, KC_PERC, KC_DQUO, KC_QUOT, LT_RALT,
-                                   _______, _______, _______, _______, _______, _______
     ),
 
     LAYER(NAV,
