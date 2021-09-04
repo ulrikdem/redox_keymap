@@ -13,9 +13,13 @@ enum layers {
 };
 
 enum custom_keycodes {
-    ID_CAPS = SAFE_RANGE,
+    REC1 = KC_FN0,
+    ID_CAPS,
     LOCK,
+    SFT_SYM,
+    SFT_SYM_MAX = SFT_SYM + (KC_QUES - KC_EXLM),
 };
+_Static_assert(SFT_SYM_MAX <= (uint16_t)KC_FN31);
 
 #define LT_ESC LT(NAV, KC_ESC)
 #define LT_TAB LT(NUM, KC_TAB)
@@ -24,6 +28,8 @@ enum custom_keycodes {
 #define LT_GESC LT(GNUM, KC_ESC)
 #define LT_GENT LT(GNUM, KC_ENT)
 
+#define MT_Q RALT_T(KC_Q)
+#define MT_SCLN RALT_T(KC_SCLN)
 #define MT_A LGUI_T(KC_A)
 #define LT_R LT(SYM, KC_R)
 #define MT_S LSFT_T(KC_S)
@@ -37,6 +43,8 @@ enum custom_keycodes {
 #define LT_Z LT(MIR, KC_Z)
 #define LT_SLSH LT(MIR, KC_SLSH)
 
+#define MT_HASH RALT_T(ENCODE_SYM(KC_HASH))
+#define MT_AMPR RALT_T(ENCODE_SYM(KC_AMPR))
 #define MT_BSLS LGUI_T(ENCODE_SYM(KC_BSLS))
 #define MT_LCBR LSFT_T(ENCODE_SYM(KC_LCBR))
 #define MT_RCBR LCTL_T(ENCODE_SYM(KC_RCBR))
@@ -45,8 +53,10 @@ enum custom_keycodes {
 #define MT_LPRN RCTL_T(ENCODE_SYM(KC_LPRN))
 #define MT_RPRN RSFT_T(ENCODE_SYM(KC_RPRN))
 #define MT_COLN RGUI_T(ENCODE_SYM(KC_COLN))
-#define LT_RALT LT(MIR, KC_RALT)
+#define LT_NUBS LT(MIR, ENCODE_SYM(KC_NUBS))
 
+#define MT_F12 RALT_T(KC_F12)
+#define OSM_ALG OSM(MOD_RALT)
 #define MT_F11 LGUI_T(KC_F11)
 #define LT_F6 LT(SYM, KC_F6)
 #define MT_F5 LSFT_T(KC_F5)
@@ -60,6 +70,7 @@ enum custom_keycodes {
 #define LT_F10 LT(MIR, KC_F10)
 #define LT_PSLS LT(MIR, KC_PSLS)
 
+#define MT_REC1 RALT_T(REC1)
 #define OSM_GUI OSM(MOD_LGUI)
 #define OSL_SYM OSL(SYM)
 #define OSM_SFT OSM(MOD_LSFT)
@@ -124,27 +135,27 @@ enum custom_keycodes {
 
 #define GET_LT_LAYER(kc) (((kc) >> 8) & 0xF)
 
-#define ENCODE_SYM(kc) ((kc) >= KC_EXLM && (kc) <= KC_QUES ? (kc) - KC_EXLM + KC_FN0 : (kc))
+#define ENCODE_SYM(kc) ((kc) >= KC_EXLM && (kc) <= KC_QUES ? SFT_SYM + ((kc) - KC_EXLM) : (kc))
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYER(BASE,
-        KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                      KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN,
+        MT_Q,    KC_W,    KC_F,    KC_P,    KC_B,                      KC_J,    KC_L,    KC_U,    KC_Y,    MT_SCLN,
         MT_A,    LT_R,    MT_S,    MT_T,    MT_G,                      MT_M,    MT_N,    MT_E,    LT_I,    MT_O,
         LT_Z,    KC_X,    KC_C,    KC_D,    KC_V,                      KC_K,    KC_H,    KC_COMM, KC_DOT,  LT_SLSH,
                                    LT_ESC,  LT_TAB,  KC_DEL,  KC_BSPC, LT_SPC,  LT_ENT
     ),
 
     LAYER(SYM,
-        KC_HASH, KC_AT,   KC_LBRC, KC_RBRC, KC_CIRC,                   KC_EXLM, KC_LT,   KC_GT,   KC_EQL,  KC_AMPR,
+        MT_HASH, KC_AT,   KC_LBRC, KC_RBRC, KC_CIRC,                   KC_EXLM, KC_LT,   KC_GT,   KC_EQL,  MT_AMPR,
         MT_BSLS, KC_UNDS, MT_LCBR, MT_RCBR, MT_ASTR,                   MT_QUES, MT_LPRN, MT_RPRN, KC_MINS, MT_COLN,
-        LT_RALT, KC_DLR,  KC_PIPE, KC_TILD, KC_GRV,                    KC_PLUS, KC_PERC, KC_DQUO, KC_QUOT, LT_RALT,
+        LT_NUBS, KC_DLR,  KC_PIPE, KC_TILD, KC_GRV,                    KC_PLUS, KC_PERC, KC_DQUO, KC_QUOT, LT_NUBS,
                                    _______, _______, _______, _______, _______, _______
     ),
 
     LAYER(NUM,
-        KC_F12,  KC_F9,   KC_F8,   KC_F7,   KC_PSCR,                   XXXXXXX, KC_7,    KC_8,    KC_9,    TG(KP),
+        MT_F12,  KC_F9,   KC_F8,   KC_F7,   KC_PSCR,                   XXXXXXX, KC_7,    KC_8,    KC_9,    OSM_ALG,
         MT_F11,  LT_F6,   MT_F5,   MT_F4,   MT_SLCK,                   OSM_ALT, MT_4,    MT_5,    LT_6,    MT_0,
-        LT_F10,  KC_F3,   KC_F2,   KC_F1,   KC_PAUS,                   XXXXXXX, KC_1,    KC_2,    KC_3,    OSL_MIR,
+        LT_F10,  KC_F3,   KC_F2,   KC_F1,   KC_PAUS,                   TG(KP),  KC_1,    KC_2,    KC_3,    OSL_MIR,
                                    _______, KC_TAB,  _______, _______, _______, KC_ENT
     ),
 
@@ -156,7 +167,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     LAYER(NAV,
-        DM_REC1, DM_PLY1, TG(GAM), XXXXXXX, RESET,                     KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP,
+        MT_REC1, DM_PLY1, TG(GAM), XXXXXXX, RESET,                     KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP,
         OSM_GUI, OSL_SYM, OSM_SFT, OSM_CTL, OSM_ALT,                   KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN,
         OSL_MIR, LOCK,    ID_CAPS, TG(MOU), XXXXXXX,                   KC_MUTE, KC_INS,  KC_CAPS, KC_APP,  OSL_MIR,
                                    KC_ESC,  _______, _______, _______, KC_SPC,  _______
@@ -207,6 +218,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if ((IN_RANGE(keycode, QK_LAYER_TAP) || IN_RANGE(keycode, QK_MOD_TAP)) && record->tap.count)
         keycode &= 0xFF;
 
+    if (!process_dynamic_macro(keycode == REC1 ? DM_REC1 : keycode, record))
+        return false;
+
     static bool identifier_caps = false;
     bool is_identifier = (keycode >= KC_A && keycode <= KC_0) || ENCODE_SYM(keycode) == ENCODE_SYM(KC_UNDS)
         || keycode == KC_BSPC || IN_RANGE(keycode, QK_LAYER_TAP) || IN_RANGE(keycode, QK_ONE_SHOT_LAYER);
@@ -230,10 +244,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    if (IS_FN(keycode)) {
-        (pressed ? register_code16 : unregister_code16)(FN_INDEX(keycode) + KC_EXLM);
-        return false;
-    }
+    if (IN_RANGE(keycode, SFT_SYM))
+        (pressed ? register_code16 : unregister_code16)(KC_EXLM + (keycode - SFT_SYM));
 
-    return true;
+    return !IS_FN(keycode);
 }
