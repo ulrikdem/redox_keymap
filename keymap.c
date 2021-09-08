@@ -231,16 +231,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     static bool lock_next = false;
     static layer_state_t locked_layers = 0;
+    locked_layers &= layer_state;
     if (lock_next && !pressed) {
         lock_next = false;
         if (IN_RANGE(keycode, QK_LAYER_TAP) && GET_LT_LAYER(keycode) != MIR)
             locked_layers |= 1UL << GET_LT_LAYER(keycode);
+        else if (IN_RANGE(keycode, QK_ONE_SHOT_LAYER) && (keycode & 0xFF) != MIR)
+            locked_layers |= 1UL << (keycode & 0xFF);
         return false;
     } else if (keycode == LOCK && !pressed) {
         lock_next = true;
     } else if (locked_layers && keycode == KC_ESC && pressed) {
         layer_off(get_highest_layer(locked_layers));
-        locked_layers &= layer_state;
         return false;
     }
 
