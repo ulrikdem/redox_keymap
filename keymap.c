@@ -153,9 +153,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     LAYER(NUM,
-        MT_F12,  KC_F9,   KC_F8,   KC_F7,   KC_PSCR,                   XXXXXXX, KC_7,    KC_8,    KC_9,    OSM_ALG,
+        MT_F12,  KC_F9,   KC_F8,   KC_F7,   KC_PAUS,                   XXXXXXX, KC_7,    KC_8,    KC_9,    OSM_ALG,
         MT_F11,  LT_F6,   MT_F5,   MT_F4,   MT_SLCK,                   OSM_ALT, MT_4,    MT_5,    LT_6,    MT_0,
-        LT_F10,  KC_F3,   KC_F2,   KC_F1,   KC_PAUS,                   TG(KP),  KC_1,    KC_2,    KC_3,    OSL_MIR,
+        LT_F10,  KC_F3,   KC_F2,   KC_F1,   KC_PSCR,                   TG(KP),  KC_1,    KC_2,    KC_3,    OSL_MIR,
                                    _______, KC_TAB,  _______, _______, _______, KC_ENT
     ),
 
