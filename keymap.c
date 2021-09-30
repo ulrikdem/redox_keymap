@@ -219,7 +219,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
-    (get_mods() & MOD_MASK_SHIFT ? layer_on : layer_off)(SFT);
+    if (get_mods() & MOD_MASK_SHIFT) {
+        if (IS_LAYER_OFF(SFT))
+            layer_on(SFT);
+    } else {
+        if (IS_LAYER_ON(SFT))
+            layer_off(SFT);
+    }
 }
 
 const key_override_t
