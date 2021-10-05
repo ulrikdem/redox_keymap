@@ -210,8 +210,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     } else if (keycode == LOCK && !pressed) {
         lock_next = true;
     } else if (locked_layers && keycode == KC_ESC && pressed) {
-        layer_off(get_highest_layer(locked_layers));
-        locked_layers &= layer_state;
+        layer_and(~locked_layers);
+        locked_layers = 0;
         return false;
     }
 
