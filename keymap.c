@@ -187,16 +187,19 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    bool pressed = record->event.pressed;
     if ((IN_RANGE(keycode, QK_LAYER_TAP) || IN_RANGE(keycode, QK_MOD_TAP)) && record->tap.count)
         keycode &= 0xFF;
+    bool pressed = record->event.pressed;
+    uint8_t shift = get_mods() & MOD_MASK_SHIFT;
 
     static bool identifier_caps = false;
-    bool is_identifier = (keycode >= KC_A && keycode <= KC_0)
-        || (keycode == KC_MINS && get_mods() & MOD_MASK_SHIFT)
-        || (IN_RANGE(keycode, QK_MOD_TAP) && ((keycode >> 8) & 0xF) == MOD_LSFT)
-        || IN_RANGE(keycode, QK_LAYER_TAP)
-        || keycode == KC_BSPC;
+    bool is_identifier = (
+        (keycode >= KC_A && keycode <= KC_Z)
+        || (keycode >= KC_1 && keycode <= KC_0 && !shift)
+        || (keycode == KC_MINS && shift) || keycode == KC_UNDS
+        || keycode == KC_BSPC
+        || !(IN_RANGE(keycode, QK_BASIC) || IN_RANGE(keycode, QK_MODS))
+    ) && !(get_mods() & MOD_MASK_CAG);
     if ((keycode == ID_CAPS || (identifier_caps && !is_identifier)) && pressed) {
         identifier_caps = !identifier_caps;
         tap_code(KC_CAPS);
