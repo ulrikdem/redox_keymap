@@ -55,39 +55,39 @@ enum custom_keycodes {
 #define OSM_ALG OSM(MOD_RALT)
 
 #define LAYOUT_ulrikdem( \
-    k00, k01, k02, k03, k04,           k05, k06, k07, k08, k09, \
-    k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k20, k21, \
-    k22, k23, k24, k25, k26, k27, k28, k29, k30, k31, k32, k33, \
-         k34, k35, k36, k37, k38, k39, k40, k41, k42, k43, \
-                   k44, k45, k46, k47, k48, k49 \
+         k00, k01, k02, k03,           k04, k05, k06, k07, \
+    k08, k09, k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, \
+    k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k30, k31, \
+         k32, k33, k34, k35, k36, k37, k38, k39, k40, k41, \
+                   k42, k43, k44, k45, k46, k47 \
 ) LAYOUT( \
-    k00,   k01,   k02,   k03,   k04,   KC_NO,                             KC_NO, k05,   k06,   k07,   k08,   k09, \
-    k10,   k11,   k12,   k13,   k14,   k15,   KC_NO,               KC_NO, k16,   k17,   k18,   k19,   k20,   k21, \
-    k22,   k23,   k24,   k25,   k26,   k27,   KC_NO,               KC_NO, k28,   k29,   k30,   k31,   k32,   k33, \
-    KC_NO, k34,   k35,   k36,   k37,   k38,   KC_NO, KC_NO, KC_NO, KC_NO, k39,   k40,   k41,   k42,   k43,   KC_NO, \
-    KC_NO, KC_NO, KC_NO, KC_NO,        k44,   k45,   k46,   k47,   k48,   k49,          KC_NO, KC_NO, KC_NO, KC_NO \
+    KC_NO, k00,   k01,   k02,   k03,   KC_NO,                             KC_NO, k04,   k05,   k06,   k07,   KC_NO, \
+    k08,   k09,   k10,   k11,   k12,   k13,   KC_NO,               KC_NO, k14,   k15,   k16,   k17,   k18,   k19, \
+    k20,   k21,   k22,   k23,   k24,   k25,   KC_NO,               KC_NO, k26,   k27,   k28,   k29,   k30,   k31, \
+    KC_NO, k32,   k33,   k34,   k35,   k36,   KC_NO, KC_NO, KC_NO, KC_NO, k37,   k38,   k39,   k40,   k41,   KC_NO, \
+    KC_NO, KC_NO, KC_NO, KC_NO,        k42,   k43,   k44,   k45,   k46,   k47,          KC_NO, KC_NO, KC_NO, KC_NO \
 )
 
 #define LAYER(layer, \
-    k00, k01, k02, k03, k04,           k05, k06, k07, k08, k09, \
-    k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k20, k21, \
-    k22, k23, k24, k25, k26, k27, k28, k29, k30, k31, k32, k33, \
-         k34, k35, k36, k37, k38, k39, k40, k41, k42, k43, \
-                   k44, k45, k46, k47, k48, k49 \
+         k00, k01, k02, k03,           k04, k05, k06, k07, \
+    k08, k09, k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, \
+    k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k30, k31, \
+         k32, k33, k34, k35, k36, k37, k38, k39, k40, k41, \
+                   k42, k43, k44, k45, k46, k47 \
 ) \
     [layer] = LAYOUT_ulrikdem( \
-        k00, k01, k02, k03, k04,           k05, k06, k07, k08, k09, \
-        k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k20, k21, \
-        k22, k23, k24, k25, k26, k27, k28, k29, k30, k31, k32, k33, \
-             k34, k35, k36, k37, k38, k39, k40, k41, k42, k43, \
-                       k44, k45, k46, k47, k48, k49 \
+             k00, k01, k02, k03,           k04, k05, k06, k07, \
+        k08, k09, k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, \
+        k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k30, k31, \
+             k32, k33, k34, k35, k36, k37, k38, k39, k40, k41, \
+                       k42, k43, k44, k45, k46, k47 \
     ), \
     [layer + MIR] = LAYOUT_ulrikdem( \
-        M(k09), M(k08), M(k07), M(k06), M(k05),                 M(k04), M(k03), M(k02), M(k01), M(k00), \
-        M(k21), M(k20), M(k19), M(k18), M(k17), M(k16), M(k15), M(k14), M(k13), M(k12), M(k11), M(k10), \
-        M(k33), M(k32), M(k31), M(k30), M(k29), M(k28), M(k27), M(k26), M(k25), M(k24), M(k23), M(k22), \
-                M(k43), M(k42), M(k41), M(k40), M(k39), M(k38), M(k37), M(k36), M(k35), M(k34), \
-                                M(k49), M(k48), M(k47), M(k46), M(k45), M(k44) \
+                M(k07), M(k06), M(k05), M(k04),                 M(k03), M(k02), M(k01), M(k00), \
+        M(k19), M(k18), M(k17), M(k16), M(k15), M(k14), M(k13), M(k12), M(k11), M(k10), M(k09), M(k08), \
+        M(k31), M(k30), M(k29), M(k28), M(k27), M(k26), M(k25), M(k24), M(k23), M(k22), M(k21), M(k20), \
+                M(k41), M(k40), M(k39), M(k38), M(k37), M(k36), M(k35), M(k34), M(k33), M(k32), \
+                                M(k47), M(k46), M(k45), M(k44), M(k43), M(k42) \
     )
 
 #undef M
@@ -110,15 +110,15 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYER(BASE,
-        KC_GRV,  KC_EXLM, KC_LPRN, KC_LBRC, KC_LCBR,                   KC_RCBR, KC_RBRC, KC_RPRN, KC_EQL,  KC_BSLS,
-        XXXXXXX, KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, XXXXXXX,
+                 KC_EXLM, KC_LPRN, KC_LBRC, KC_LCBR,                   KC_RCBR, KC_RBRC, KC_RPRN, KC_EQL,
+        KC_GRV,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSLS,
         LT_MINS, MT_A,    MT_R,    MT_S,    MT_T,    KC_G,    KC_M,    MT_N,    MT_E,    MT_I,    MT_O,    LT_QUOT,
                  KC_Z,    MT_X,    KC_C,    KC_D,    KC_V,    KC_K,    KC_H,    KC_COMM, MT_DOT,  KC_SLSH,
                                    LT_ESC,  LT_TAB,  KC_DEL,  KC_BSPC, LT_SPC,  LT_ENT
     ),
 
     LAYER(SFT,
-        _______, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_AMPR, KC_ASTR, KC_CIRC, _______, _______,
+                 KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_AMPR, KC_ASTR, KC_CIRC, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -126,7 +126,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     LAYER(NUM,
-        _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______,
+                 _______, _______, _______, _______,                   _______, _______, _______, _______,
         _______, KC_F12,  KC_F9,   KC_F8,   KC_F7,   KC_PAUS, TG(KP),  KC_7,    KC_8,    KC_9,    _______, _______,
         _______, MT_F11,  MT_F6,   MT_F5,   MT_F4,   KC_SLCK, KC_DOT,  MT_4,    MT_5,    MT_6,    MT_0,    _______,
                  KC_F10,  MT_F3,   KC_F2,   KC_F1,   KC_PSCR, KC_COMM, KC_1,    KC_2,    MT_3,    _______,
@@ -134,7 +134,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     LAYER(KP,
-        _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______,
+                 _______, _______, _______, _______,                   _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, KC_NLCK, KC_P7,   KC_P8,   KC_P9,   _______, _______,
         LT_PMNS, _______, _______, _______, _______, _______, KC_PDOT, KC_P4,   KC_P5,   KC_P6,   KC_P0,   _______,
                  _______, _______, _______, _______, _______, _______, KC_P1,   KC_P2,   KC_P3,   KC_PSLS,
@@ -142,7 +142,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     LAYER(KP_SFT,
-        _______, _______, _______, _______, _______,                   _______, KC_PAST, _______, KC_PPLS, _______,
+                 _______, _______, _______, _______,                   _______, KC_PAST, _______, KC_PPLS,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         LT_UNDS, _______, _______, _______, _______, _______, KC_GT,   _______, _______, _______, _______, _______,
                  _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_QUES,
@@ -150,15 +150,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     LAYER(NAV,
-        _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______,
-        _______, DM_REC1, DM_PLY1, XXXXXXX, LOCK,    RESET,   KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
+                 DM_PLY1, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, DM_REC1, XXXXXXX, XXXXXXX, LOCK,    RESET,   KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, XXXXXXX,
         OSL_MIR, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, XXXXXXX, KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, OSL_MIR,
                  XXXXXXX, OSM_ALG, ID_CAPS, TG(MOU), XXXXXXX, KC_MUTE, KC_INS,  KC_CAPS, KC_APP,  XXXXXXX,
                                    KC_ESC,  _______, _______, _______, KC_SPC,  _______
     ),
 
     LAYER(MOU,
-        _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______,
+                 _______, _______, _______, _______,                   _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U, _______,
         _______, _______, _______, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D, _______,
                  _______, _______, _______, _______, _______, _______, KC_BTN4, _______, KC_BTN5, _______,
