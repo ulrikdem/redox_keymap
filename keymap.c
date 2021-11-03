@@ -23,7 +23,6 @@ enum custom_keycodes {
 #define LT_MINS LT(MIR, KC_MINS)
 #define LT_QUOT LT(MIR, KC_QUOT)
 #define LT_PMNS LT(MIR, KC_PMNS)
-#define LT_UNDS LT(MIR, KC_UNDS)
 
 #define MT_A LGUI_T(KC_A)
 #define MT_R LALT_T(KC_R)
@@ -144,7 +143,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYER(KP_SFT,
                  _______, _______, _______, _______,                   _______, KC_PAST, _______, KC_PPLS,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        LT_UNDS, _______, _______, _______, _______, _______, KC_GT,   _______, _______, _______, _______, _______,
+        LT_MINS, _______, _______, _______, _______, _______, KC_GT,   _______, _______, _______, _______, _______,
                  _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_QUES,
                                    _______, _______, _______, _______, _______, _______
     ),
@@ -193,13 +192,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     uint8_t shift = get_mods() & MOD_MASK_SHIFT;
 
     static bool identifier_caps = false;
-    bool is_identifier = (
-        (keycode >= KC_A && keycode <= KC_Z)
-        || (keycode >= KC_1 && keycode <= KC_0 && !shift)
-        || (keycode == KC_MINS && shift) || keycode == KC_UNDS
-        || keycode == KC_BSPC
-        || !(IN_RANGE(keycode, QK_BASIC) || IN_RANGE(keycode, QK_MODS))
-    ) && !(get_mods() & MOD_MASK_CAG);
+    bool is_identifier =
+        ((
+            (keycode >= KC_A && keycode <= KC_Z)
+            || (keycode >= KC_1 && keycode <= KC_0 && !shift)
+            || (keycode == KC_MINS && shift)
+            || keycode == KC_BSPC
+        ) && !(get_mods() & MOD_MASK_CAG))
+        || !(IN_RANGE(keycode, QK_BASIC) || IN_RANGE(keycode, QK_MODS));
     if ((keycode == ID_CAPS || (identifier_caps && !is_identifier)) && pressed) {
         identifier_caps = !identifier_caps;
         tap_code(KC_CAPS);
