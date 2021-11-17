@@ -20,6 +20,7 @@ enum custom_keycodes {
 #define LT_SPC LT(NAV, KC_SPC)
 #define LT_ESC LT(MIR, KC_ESC)
 #define LT_QUOT LT(MIR, KC_QUOT)
+#define LT_BSLS LT(MIR, KC_BSLS)
 
 #define MT_A LGUI_T(KC_A)
 #define MT_R LALT_T(KC_R)
@@ -43,7 +44,6 @@ enum custom_keycodes {
 #define MT_F3 RALT_T(KC_F3)
 #define MT_3 RALT_T(KC_3)
 
-#define OSL_MIR OSL(MIR)
 #define OSM_GUI OSM(MOD_LGUI)
 #define OSM_ALT OSM(MOD_LALT)
 #define OSM_SFT OSM(MOD_LSFT)
@@ -106,7 +106,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_GRV,  KC_EXLM, KC_LPRN, KC_LBRC, KC_LCBR,                   KC_RCBR, KC_RBRC, KC_RPRN, KC_EQL,  KC_BSPC,
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_MINS,
         LT_ESC,  MT_A,    MT_R,    MT_S,    MT_T,    KC_G,    KC_M,    MT_N,    MT_E,    MT_I,    MT_O,    LT_QUOT,
-        XXXXXXX, KC_Z,    MT_X,    KC_C,    KC_D,    KC_V,    KC_K,    KC_H,    KC_COMM, MT_DOT,  KC_SLSH, KC_BSLS,
+        LT_BSLS, KC_Z,    MT_X,    KC_C,    KC_D,    KC_V,    KC_K,    KC_H,    KC_COMM, MT_DOT,  KC_SLSH, LT_BSLS,
                                             LT_SPC,  LT_ENT,  LT_SPC,  LT_ENT
     ),
 
@@ -145,7 +145,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYER(NAV,
         _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______,
         _______, DM_REC1, DM_PLY1, XXXXXXX, LOCK,    RESET,   KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
-        OSL_MIR, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, XXXXXXX, KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, OSL_MIR,
+        _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, XXXXXXX, KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
         _______, XXXXXXX, OSM_ALG, ID_CAPS, TG(MOU), XXXXXXX, KC_MUTE, KC_INS,  KC_CAPS, KC_APP,  KC_DEL,  _______,
                                             KC_SPC,  _______, KC_SPC,  _______
     ),
