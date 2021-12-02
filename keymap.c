@@ -32,6 +32,7 @@ enum custom_keycodes {
 #define MT_O RGUI_T(KC_O)
 #define MT_X RALT_T(KC_X)
 #define MT_DOT RALT_T(KC_DOT)
+#define MT_GT RALT_T(ENCODE_SYM(KC_GT))
 
 #define MT_LPRN LALT_T(ENCODE_SYM(KC_LPRN))
 #define MT_RPRN LSFT_T(ENCODE_SYM(KC_RPRN))
@@ -89,6 +90,7 @@ enum custom_keycodes {
     MIRROR_KEY(kc, KC_LPRN, KC_RPRN) \
     MIRROR_KEY(kc, KC_LBRC, KC_RBRC) \
     MIRROR_KEY(kc, KC_LCBR, KC_RCBR) \
+    MIRROR_KEY(kc, KC_LT, KC_GT) \
     MIRROR_KEY(kc, KC_LEFT, KC_RGHT) \
     MIRROR_KEY(kc, KC_HOME, KC_END) \
     MIRROR_KEY(kc, KC_MS_L, KC_MS_R) \
@@ -121,7 +123,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_AT,   KC_HASH, KC_PERC,                                     KC_AMPR, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, KC_LT,   MT_GT,   _______, _______,
                                             _______, _______, _______, _______
     ),
 
