@@ -19,8 +19,6 @@ enum custom_keycodes {
 
 #define LT_ENT LT(NUM, KC_ENT)
 #define LT_SPC LT(NAV, KC_SPC)
-#define LT_ESC LT(MIR, KC_ESC)
-#define LT_QUOT LT(MIR, KC_QUOT)
 
 #define MT_A LGUI_T(KC_A)
 #define MT_R LALT_T(KC_R)
@@ -108,13 +106,11 @@ enum custom_keycodes {
 
 #define ENCODE_SYM(kc) ((kc) >= KC_EXLM && (kc) <= KC_QUES ? (kc) - KC_EXLM + KC_FN0 : (kc))
 
-#define GET_LT_LAYER(kc) (((kc) >> 8) & 0xF)
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYER(BASE,
         KC_GRV,  KC_EXLM, KC_CIRC, KC_DLR,                                      KC_ASTR, KC_BSLS, KC_EQL,  KC_BSPC,
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_MINS,
-        LT_ESC,  MT_A,    MT_R,    MT_S,    MT_T,    KC_G,    KC_M,    MT_N,    MT_E,    MT_I,    MT_O,    LT_QUOT,
+        KC_ESC,  MT_A,    MT_R,    MT_S,    MT_T,    KC_G,    KC_M,    MT_N,    MT_E,    MT_I,    MT_O,    KC_QUOT,
         MO(MIR), KC_Z,    MT_X,    KC_C,    KC_D,    KC_V,    KC_K,    KC_H,    KC_COMM, MT_DOT,  KC_SLSH, MO(MIR),
                                             LT_SPC,  LT_ENT,  LT_SPC,  LT_ENT
     ),
@@ -193,7 +189,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 }
 
 bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
-    return IN_RANGE(keycode, QK_LAYER_TAP) && GET_LT_LAYER(keycode) != MIR;
+    return IN_RANGE(keycode, QK_LAYER_TAP);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -220,8 +216,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static layer_state_t locked_layers = 0;
     if (lock_next && !pressed) {
         lock_next = false;
-        if (IN_RANGE(keycode, QK_LAYER_TAP) && GET_LT_LAYER(keycode) != MIR)
-            locked_layers |= 1UL << GET_LT_LAYER(keycode);
+        if (IN_RANGE(keycode, QK_LAYER_TAP))
+            locked_layers |= 1UL << (keycode >> 8 & 0xF);
         return false;
     } else if (keycode == LOCK && !pressed) {
         lock_next = true;
