@@ -48,38 +48,38 @@ enum custom_keycodes {
 #define OSM_ALG OSM(MOD_RALT)
 
 #define LAYOUT_ulrikdem( \
-    k00, k01, k02, k03,                     k04, k05, k06, k07, \
-    k08, k09, k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, \
-    k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k30, k31, \
-    k32, k33, k34, k35, k36, k37, k38, k39, k40, k41, k42, k43, \
+    k00, k01, k02, k03,                     k08, k09, k0a, k0b, \
+    k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k1a, k1b, \
+    k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k2a, k2b, \
+    k30, k31, k32, k33, k34, k35, k36, k37, k38, k39, k3a, k3b, \
                         k44, k45, k46, k47 \
 ) LAYOUT( \
-    k00,   k01,   k02,   k03,   KC_NO, KC_NO,                             KC_NO, KC_NO, k04,   k05,   k06,   k07, \
-    k08,   k09,   k10,   k11,   k12,   k13,   KC_NO,               KC_NO, k14,   k15,   k16,   k17,   k18,   k19, \
-    k20,   k21,   k22,   k23,   k24,   k25,   KC_NO,               KC_NO, k26,   k27,   k28,   k29,   k30,   k31, \
-    k32,   k33,   k34,   k35,   k36,   k37,   KC_NO, KC_NO, KC_NO, KC_NO, k38,   k39,   k40,   k41,   k42,   k43, \
+    k00,   k01,   k02,   k03,   KC_NO, KC_NO,                             KC_NO, KC_NO, k08,   k09,   k0a,   k0b, \
+    k10,   k11,   k12,   k13,   k14,   k15,   KC_NO,               KC_NO, k16,   k17,   k18,   k19,   k1a,   k1b, \
+    k20,   k21,   k22,   k23,   k24,   k25,   KC_NO,               KC_NO, k26,   k27,   k28,   k29,   k2a,   k2b, \
+    k30,   k31,   k32,   k33,   k34,   k35,   KC_NO, KC_NO, KC_NO, KC_NO, k36,   k37,   k38,   k39,   k3a,   k3b, \
     KC_NO, KC_NO, KC_NO, KC_NO,        k44,   k45,   KC_NO, KC_NO, k46,   k47,          KC_NO, KC_NO, KC_NO, KC_NO \
 )
 
 #define LAYER(layer, \
-    k00, k01, k02, k03,                     k04, k05, k06, k07, \
-    k08, k09, k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, \
-    k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k30, k31, \
-    k32, k33, k34, k35, k36, k37, k38, k39, k40, k41, k42, k43, \
+    k00, k01, k02, k03,                     k08, k09, k0a, k0b, \
+    k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k1a, k1b, \
+    k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k2a, k2b, \
+    k30, k31, k32, k33, k34, k35, k36, k37, k38, k39, k3a, k3b, \
                         k44, k45, k46, k47 \
 ) \
     [layer] = LAYOUT_ulrikdem( \
-        k00, k01, k02, k03,                     k04, k05, k06, k07, \
-        k08, k09, k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, \
-        k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k30, k31, \
-        k32, k33, k34, k35, k36, k37, k38, k39, k40, k41, k42, k43, \
+        k00, k01, k02, k03,                     k08, k09, k0a, k0b, \
+        k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k1a, k1b, \
+        k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k2a, k2b, \
+        k30, k31, k32, k33, k34, k35, k36, k37, k38, k39, k3a, k3b, \
                             k44, k45, k46, k47 \
     ), \
     [layer + MIR] = LAYOUT_ulrikdem( \
-        M(k07), M(k06), M(k05), M(k04),                                 M(k03), M(k02), M(k01), M(k00), \
-        M(k19), M(k18), M(k17), M(k16), M(k15), M(k14), M(k13), M(k12), M(k11), M(k10), M(k09), M(k08), \
-        M(k31), M(k30), M(k29), M(k28), M(k27), M(k26), M(k25), M(k24), M(k23), M(k22), M(k21), M(k20), \
-        M(k43), M(k42), M(k41), M(k40), M(k39), M(k38), M(k37), M(k36), M(k35), M(k34), M(k33), M(k32), \
+        M(k0b), M(k0a), M(k09), M(k08),                                 M(k03), M(k02), M(k01), M(k00), \
+        M(k1b), M(k1a), M(k19), M(k18), M(k17), M(k16), M(k15), M(k14), M(k13), M(k12), M(k11), M(k10), \
+        M(k2b), M(k2a), M(k29), M(k28), M(k27), M(k26), M(k25), M(k24), M(k23), M(k22), M(k21), M(k20), \
+        M(k3b), M(k3a), M(k39), M(k38), M(k37), M(k36), M(k35), M(k34), M(k33), M(k32), M(k31), M(k30), \
                                         k44,    k45,    k46,    k47 \
     )
 
