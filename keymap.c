@@ -13,7 +13,8 @@ enum layers {
 };
 
 enum custom_keycodes {
-    ID_CAPS = SAFE_RANGE,
+    REPEAT = SAFE_RANGE,
+    ID_CAPS,
     LOCK,
 };
 
@@ -158,7 +159,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYER(NAV,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, DM_REC1, DM_PLY1, XXXXXXX, LOCK,    RESET,   KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
-        _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, XXXXXXX, KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
+        _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, REPEAT,  KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
         _______, XXXXXXX, OSM_ALG, ID_CAPS, TG(MOU), XXXXXXX, KC_MUTE, KC_INS,  KC_CAPS, KC_APP,  KC_DEL,  _______,
                                             KC_SPC,  _______, KC_SPC,  _______
     ),
@@ -188,26 +189,37 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
-bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
-    return IN_RANGE(keycode, QK_LAYER_TAP);
-}
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    bool pressed = record->event.pressed;
     if ((IN_RANGE(keycode, QK_LAYER_TAP) || IN_RANGE(keycode, QK_MOD_TAP)) && record->tap.count)
         keycode &= 0xFF;
-    bool pressed = record->event.pressed;
-    uint8_t shift = get_mods() & MOD_MASK_SHIFT;
+    uint16_t orig_keycode = keycode;
+    if (IS_FN(keycode))
+        keycode = FN_INDEX(keycode) + KC_EXLM;
+    bool basic_or_mods = IN_RANGE(keycode, QK_BASIC) || IN_RANGE(keycode, QK_MODS);
+
+    static uint16_t last_keycode = KC_NO, repeating_keycode = KC_NO;
+    if (keycode == REPEAT) {
+        keycode = pressed ? last_keycode : repeating_keycode;
+        repeating_keycode = keycode;
+    } else if (basic_or_mods && pressed) {
+        last_keycode = keycode;
+        if (get_mods() & MOD_MASK_CTRL) last_keycode |= QK_LCTL;
+        if (get_mods() & MOD_MASK_SHIFT) last_keycode |= QK_LSFT;
+        if (get_mods() & MOD_BIT(KC_LALT)) last_keycode |= QK_LALT;
+        if (get_mods() & MOD_BIT(KC_RALT)) last_keycode |= QK_RALT;
+        if (get_mods() & MOD_MASK_GUI) last_keycode |= QK_LGUI;
+    }
 
     static bool identifier_caps = false;
-    bool is_identifier =
-        ((
-            (keycode >= KC_A && keycode <= KC_Z)
-            || (keycode >= KC_1 && keycode <= KC_0 && !shift)
-            || (keycode == KC_MINS && shift) || keycode == KC_UNDS
-            || keycode == KC_BSPC
-        ) && !(get_mods() & MOD_MASK_CAG))
-        || !(IN_RANGE(keycode, QK_BASIC) || IN_RANGE(keycode, QK_MODS));
-    if ((keycode == ID_CAPS || (identifier_caps && !is_identifier)) && pressed) {
+    uint8_t shift = get_mods() & MOD_MASK_SHIFT;
+    bool is_identifier = (
+        (keycode >= KC_A && keycode <= KC_Z)
+        || (keycode >= KC_1 && keycode <= KC_0 && !shift)
+        || (keycode == KC_MINS && shift) || keycode == KC_UNDS
+        || keycode == KC_BSPC
+    ) && !(get_mods() & MOD_MASK_CAG);
+    if ((keycode == ID_CAPS || (identifier_caps && basic_or_mods && !is_identifier)) && pressed) {
         identifier_caps = !identifier_caps;
         tap_code(KC_CAPS);
     }
@@ -227,11 +239,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    if (IS_FN(keycode)) {
-        (pressed ? register_code16 : unregister_code16)(FN_INDEX(keycode) + KC_EXLM);
+    if (keycode != orig_keycode) {
+        (pressed ? register_code16 : unregister_code16)(keycode);
         return false;
     }
-
     return true;
 }
 
