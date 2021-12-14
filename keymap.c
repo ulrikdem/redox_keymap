@@ -41,6 +41,7 @@ enum custom_keycodes {
 #define MT_0 RGUI_T(KC_0)
 #define MT_LCBR RALT_T(ENCODE_SYM(KC_LCBR))
 #define MT_3 RALT_T(KC_3)
+#define ENC_GT ENCODE_SYM(KC_GT)
 
 #define OSM_GUI OSM(MOD_LGUI)
 #define OSM_ALT OSM(MOD_LALT)
@@ -143,7 +144,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYER(KP_SFT,
         _______, _______, _______, _______,                                     KC_AMPR, _______, KC_PPLS, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_UNDS,
-        _______, _______, _______, _______, _______, _______, KC_GT,   _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, ENC_GT,  _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_QUES, _______,
                                             _______, _______, _______, _______
     ),
