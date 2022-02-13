@@ -33,15 +33,17 @@ enum custom_keycodes {
 #define MT_DOT RALT_T(KC_DOT)
 #define MT_GT RALT_T(ENCODE_SYM(KC_GT))
 
+#define MT_COMM LGUI_T(KC_COMM)
 #define MT_LPRN LALT_T(ENCODE_SYM(KC_LPRN))
 #define MT_RPRN LSFT_T(ENCODE_SYM(KC_RPRN))
+#define MT_NDOT LCTL_T(KC_DOT)
+#define MT_PDOT LCTL_T(KC_PDOT)
 #define MT_4 RCTL_T(KC_4)
 #define MT_5 RSFT_T(KC_5)
 #define MT_6 LALT_T(KC_6)
 #define MT_0 RGUI_T(KC_0)
 #define MT_LCBR RALT_T(ENCODE_SYM(KC_LCBR))
 #define MT_3 RALT_T(KC_3)
-#define ENC_GT ENCODE_SYM(KC_GT)
 
 #define OSM_GUI OSM(MOD_LGUI)
 #define OSM_ALT OSM(MOD_LALT)
@@ -128,15 +130,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYER(NUM,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, XXXXXXX, KC_LBRC, KC_RBRC, LOCK,    XXXXXXX, TG(KP),  KC_7,    KC_8,    KC_9,    _______, _______,
-        _______, KC_LGUI, MT_LPRN, MT_RPRN, KC_LCTL, XXXXXXX, KC_DOT,  MT_4,    MT_5,    MT_6,    MT_0,    _______,
-        _______, XXXXXXX, MT_LCBR, KC_RCBR, TG(FN),  XXXXXXX, KC_COMM, KC_1,    KC_2,    MT_3,    _______, _______,
+        _______, MT_COMM, MT_LPRN, MT_RPRN, MT_NDOT, XXXXXXX, TG(FN),  MT_4,    MT_5,    MT_6,    MT_0,    _______,
+        _______, KC_LT,   MT_LCBR, KC_RCBR, KC_GT,   XXXXXXX, XXXXXXX, KC_1,    KC_2,    MT_3,    _______, _______,
                                             _______, KC_ENT,  _______, KC_ENT
     ),
 
     LAYER(KP,
         _______, _______, _______, _______,                                     KC_PAST, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, KC_NUM,  KC_P7,   KC_P8,   KC_P9,   _______, KC_PMNS,
-        _______, _______, _______, _______, _______, _______, KC_PDOT, KC_P4,   KC_P5,   KC_P6,   KC_P0,   _______,
+        _______, _______, _______, _______, MT_PDOT, _______, _______, KC_P4,   KC_P5,   KC_P6,   KC_P0,   _______,
         _______, _______, _______, _______, _______, _______, _______, KC_P1,   KC_P2,   KC_P3,   KC_PSLS, _______,
                                             _______, KC_PENT, _______, KC_PENT
     ),
@@ -144,7 +146,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYER(KP_SFT,
         _______, _______, _______, _______,                                     KC_AMPR, _______, KC_PPLS, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_UNDS,
-        _______, _______, _______, _______, _______, _______, ENC_GT,  _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_QUES, _______,
                                             _______, _______, _______, _______
     ),
@@ -160,8 +162,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYER(NAV,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, DM_REC1, DM_PLY1, XXXXXXX, LOCK,    RESET,   KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
-        _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, REPEAT,  KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
-        _______, XXXXXXX, OSM_ALG, ID_CAPS, TG(MOU), XXXXXXX, KC_MUTE, KC_INS,  KC_CAPS, KC_APP,  KC_DEL,  _______,
+        _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, TG(MOU), KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
+        _______, XXXXXXX, OSM_ALG, ID_CAPS, REPEAT,  XXXXXXX, KC_MUTE, KC_INS,  KC_CAPS, KC_APP,  KC_DEL,  _______,
                                             KC_SPC,  _______, KC_SPC,  _______
     ),
 
