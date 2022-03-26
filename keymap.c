@@ -1,16 +1,12 @@
+// Includes and Macros {{{1
+
+// vim: foldmethod=marker
+
 #include QMK_KEYBOARD_H
 
-enum layers {
-    BASE,
-    SFT,
-    NUM,
-    KP,
-    KP_SFT,
-    FN,
-    NAV,
-    MOU,
-    MIR,
-};
+#define IN_RANGE(kc, range) ((uint16_t)(kc) >= range && (uint16_t)(kc) <= range##_MAX)
+
+// Custom Keycodes {{{1
 
 enum custom_keycodes {
     REPEAT = SAFE_RANGE,
@@ -18,36 +14,67 @@ enum custom_keycodes {
     LOCK,
 };
 
-#define LT_ENT LT(NUM, KC_ENT)
-#define LT_SPC LT(NAV, KC_SPC)
+#define ENCODE_SYM(kc) ((kc) >= KC_EXLM && (kc) <= KC_QUES ? (kc) - KC_EXLM + KC_FN0 : (kc))
 
-#define MT_A LGUI_T(KC_A)
-#define MT_R LALT_T(KC_R)
-#define MT_S LSFT_T(KC_S)
-#define MT_T LCTL_T(KC_T)
-#define MT_N RCTL_T(KC_N)
-#define MT_E RSFT_T(KC_E)
-#define MT_I LALT_T(KC_I)
-#define MT_O RGUI_T(KC_O)
-#define MT_X RALT_T(KC_X)
-#define MT_DOT RALT_T(KC_DOT)
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    bool pressed = record->event.pressed;
 
-#define MT_LT LGUI_T(ENCODE_SYM(KC_LT))
-#define MT_LPRN LALT_T(ENCODE_SYM(KC_LPRN))
-#define MT_RPRN LSFT_T(ENCODE_SYM(KC_RPRN))
-#define MT_GT LCTL_T(ENCODE_SYM(KC_GT))
-#define MT_4 RCTL_T(KC_4)
-#define MT_5 RSFT_T(KC_5)
-#define MT_6 LALT_T(KC_6)
-#define MT_0 RGUI_T(KC_0)
-#define MT_LCBR RALT_T(ENCODE_SYM(KC_LCBR))
-#define MT_3 RALT_T(KC_3)
+    if ((IN_RANGE(keycode, QK_LAYER_TAP) || IN_RANGE(keycode, QK_MOD_TAP)) && record->tap.count)
+        keycode &= 0xFF;
+    uint16_t orig_keycode = keycode;
+    if (IS_FN(keycode))
+        keycode = FN_INDEX(keycode) + KC_EXLM;
+    bool basic_or_mods = IN_RANGE(keycode, QK_BASIC) || IN_RANGE(keycode, QK_MODS);
 
-#define OSM_GUI OSM(MOD_LGUI)
-#define OSM_ALT OSM(MOD_LALT)
-#define OSM_SFT OSM(MOD_LSFT)
-#define OSM_CTL OSM(MOD_LCTL)
-#define OSM_ALG OSM(MOD_RALT)
+    static uint16_t last_keycode = KC_NO, repeating_keycode = KC_NO;
+    if (keycode == REPEAT) {
+        keycode = pressed ? last_keycode : repeating_keycode;
+        repeating_keycode = keycode;
+    } else if (basic_or_mods && pressed) {
+        last_keycode = keycode;
+        if (get_mods() & MOD_MASK_CTRL) last_keycode |= QK_LCTL;
+        if (get_mods() & MOD_MASK_SHIFT) last_keycode |= QK_LSFT;
+        if (get_mods() & MOD_BIT(KC_LALT)) last_keycode |= QK_LALT;
+        if (get_mods() & MOD_BIT(KC_RALT)) last_keycode |= QK_RALT;
+        if (get_mods() & MOD_MASK_GUI) last_keycode |= QK_LGUI;
+    }
+
+    static bool identifier_caps = false;
+    uint8_t shift = get_mods() & MOD_MASK_SHIFT;
+    bool is_identifier = (
+        (keycode >= KC_A && keycode <= KC_Z)
+        || (keycode >= KC_1 && keycode <= KC_0 && !shift)
+        || (keycode == KC_MINS && shift) || keycode == KC_UNDS
+        || keycode == KC_BSPC
+    ) && !(get_mods() & MOD_MASK_CAG);
+    if (pressed && (keycode == ID_CAPS || (identifier_caps && basic_or_mods && !is_identifier))) {
+        identifier_caps = !identifier_caps;
+        tap_code(KC_CAPS);
+    }
+
+    static bool lock_next = false;
+    static layer_state_t locked_layers = 0;
+    if (lock_next && !pressed) {
+        lock_next = false;
+        if (IN_RANGE(keycode, QK_LAYER_TAP))
+            locked_layers |= 1UL << (keycode >> 8 & 0xF);
+        return false;
+    } else if (keycode == LOCK && !pressed) {
+        lock_next = true;
+    } else if (locked_layers && keycode == KC_ESC && pressed) {
+        layer_and(~locked_layers);
+        locked_layers = 0;
+        return false;
+    }
+
+    if (keycode != orig_keycode) {
+        (pressed ? register_code16 : unregister_code16)(keycode);
+        return false;
+    }
+    return true;
+}
+
+// Layout Macros {{{1
 
 #define LAYOUT_ulrikdem( \
     k00, k01, k02, k03,                     k08, k09, k0a, k0b, \
@@ -99,16 +126,45 @@ enum custom_keycodes {
 )
 
 #define MIRROR_KEY(kc, left, right) REPLACE_KEY(kc, left, right) REPLACE_KEY(kc, right, left)
+
 #define REPLACE_KEY(kc, left, right) \
     (uint16_t)(kc) == (left) ? (right) : \
     (IN_RANGE(kc, QK_LAYER_TAP) || IN_RANGE(kc, QK_MOD_TAP)) \
         && ((kc) & 0xFF) == ENCODE_SYM(left) ? ((kc) & 0xFF00) | ENCODE_SYM(right) :
 
-#define IN_RANGE(kc, range) ((uint16_t)(kc) >= range && (uint16_t)(kc) <= range##_MAX)
+// Layers {{{1
 
-#define ENCODE_SYM(kc) ((kc) >= KC_EXLM && (kc) <= KC_QUES ? (kc) - KC_EXLM + KC_FN0 : (kc))
+enum layers {
+    BASE,
+    SFT,
+    NUM,
+    KP,
+    KP_SFT,
+    FN,
+    NAV,
+    MOU,
+    MIR,
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+
+// Base Layers {{{1
+
+#define LT_ENT LT(NUM, KC_ENT)
+#define LT_SPC LT(NAV, KC_SPC)
+
+#define MT_A LGUI_T(KC_A)
+#define MT_R LALT_T(KC_R)
+#define MT_S LSFT_T(KC_S)
+#define MT_T LCTL_T(KC_T)
+#define MT_X RALT_T(KC_X)
+
+#define MT_N RCTL_T(KC_N)
+#define MT_E RSFT_T(KC_E)
+#define MT_I LALT_T(KC_I)
+#define MT_O RGUI_T(KC_O)
+#define MT_DOT RALT_T(KC_DOT)
+
     LAYER(BASE,
         KC_GRV,  KC_EXLM, KC_CIRC, KC_DLR,                                      KC_ASTR, KC_MINS, KC_EQL,  KC_BSPC,
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSLS,
@@ -124,6 +180,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                             _______, _______, _______, _______
     ),
+
+// Numeric Layers {{{1
+
+#define MT_LT LGUI_T(ENCODE_SYM(KC_LT))
+#define MT_LPRN LALT_T(ENCODE_SYM(KC_LPRN))
+#define MT_RPRN LSFT_T(ENCODE_SYM(KC_RPRN))
+#define MT_GT LCTL_T(ENCODE_SYM(KC_GT))
+#define MT_LCBR RALT_T(ENCODE_SYM(KC_LCBR))
+
+#define MT_4 RCTL_T(KC_4)
+#define MT_5 RSFT_T(KC_5)
+#define MT_6 LALT_T(KC_6)
+#define MT_0 RGUI_T(KC_0)
+#define MT_3 RALT_T(KC_3)
 
     LAYER(NUM,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
@@ -157,6 +227,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             _______, _______, _______, _______
     ),
 
+// Navigation Layers {{{1
+
+#define OSM_GUI OSM(MOD_LGUI)
+#define OSM_ALT OSM(MOD_LALT)
+#define OSM_SFT OSM(MOD_LSFT)
+#define OSM_CTL OSM(MOD_LCTL)
+#define OSM_ALG OSM(MOD_RALT)
+
     LAYER(NAV,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, DM_REC1, DM_PLY1, XXXXXXX, LOCK,    RESET,   KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
@@ -172,7 +250,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, KC_BTN4, XXXXXXX, KC_BTN5, KC_BTN3, _______,
                                             _______, _______, KC_BTN1, KC_BTN2
     ),
+
 };
+
+// Layer Changes {{{1
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     if (IS_LAYER_OFF_STATE(state, NUM))
@@ -188,63 +269,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         state |= (state | 1) << MIR;
 
     return state;
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    bool pressed = record->event.pressed;
-    if ((IN_RANGE(keycode, QK_LAYER_TAP) || IN_RANGE(keycode, QK_MOD_TAP)) && record->tap.count)
-        keycode &= 0xFF;
-    uint16_t orig_keycode = keycode;
-    if (IS_FN(keycode))
-        keycode = FN_INDEX(keycode) + KC_EXLM;
-    bool basic_or_mods = IN_RANGE(keycode, QK_BASIC) || IN_RANGE(keycode, QK_MODS);
-
-    static uint16_t last_keycode = KC_NO, repeating_keycode = KC_NO;
-    if (keycode == REPEAT) {
-        keycode = pressed ? last_keycode : repeating_keycode;
-        repeating_keycode = keycode;
-    } else if (basic_or_mods && pressed) {
-        last_keycode = keycode;
-        if (get_mods() & MOD_MASK_CTRL) last_keycode |= QK_LCTL;
-        if (get_mods() & MOD_MASK_SHIFT) last_keycode |= QK_LSFT;
-        if (get_mods() & MOD_BIT(KC_LALT)) last_keycode |= QK_LALT;
-        if (get_mods() & MOD_BIT(KC_RALT)) last_keycode |= QK_RALT;
-        if (get_mods() & MOD_MASK_GUI) last_keycode |= QK_LGUI;
-    }
-
-    static bool identifier_caps = false;
-    uint8_t shift = get_mods() & MOD_MASK_SHIFT;
-    bool is_identifier = (
-        (keycode >= KC_A && keycode <= KC_Z)
-        || (keycode >= KC_1 && keycode <= KC_0 && !shift)
-        || (keycode == KC_MINS && shift) || keycode == KC_UNDS
-        || keycode == KC_BSPC
-    ) && !(get_mods() & MOD_MASK_CAG);
-    if ((keycode == ID_CAPS || (identifier_caps && basic_or_mods && !is_identifier)) && pressed) {
-        identifier_caps = !identifier_caps;
-        tap_code(KC_CAPS);
-    }
-
-    static bool lock_next = false;
-    static layer_state_t locked_layers = 0;
-    if (lock_next && !pressed) {
-        lock_next = false;
-        if (IN_RANGE(keycode, QK_LAYER_TAP))
-            locked_layers |= 1UL << (keycode >> 8 & 0xF);
-        return false;
-    } else if (keycode == LOCK && !pressed) {
-        lock_next = true;
-    } else if (locked_layers && keycode == KC_ESC && pressed) {
-        layer_and(~locked_layers);
-        locked_layers = 0;
-        return false;
-    }
-
-    if (keycode != orig_keycode) {
-        (pressed ? register_code16 : unregister_code16)(keycode);
-        return false;
-    }
-    return true;
 }
 
 void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
