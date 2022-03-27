@@ -140,6 +140,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // Layers {{{1
 
 enum layers {
+    GAM,
+    GAM_NUM,
     BASE,
     SFT,
     NUM,
@@ -242,7 +244,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     LAYER(NAV,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
-        _______, DM_REC1, DM_PLY1, XXXXXXX, LOCK,    RESET,   KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
+        _______, DM_REC1, DM_PLY1, DF(GAM), LOCK,    RESET,   KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, TG(MOU), KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
         _______, XXXXXXX, OSM_ALG, ID_CAPS, REPEAT,  XXXXXXX, KC_MUTE, KC_INS,  KC_CAPS, KC_APP,  KC_DEL,  _______,
                                             KC_SPC,  _______, KC_SPC,  _______
@@ -256,9 +258,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             _______, _______, KC_BTN1, KC_BTN2
     ),
 
+// Gaming Layers {{{1
+
+#define LT_LOCK LT(BASE, LOCK)
+#define LT_ESC LT(GAM_NUM, KC_ESC)
+#define LT_QUOT LT(GAM_NUM, KC_QUOT)
+
+#define MT_GAM0 LCTL_T(KC_0)
+
+    LAYER(GAM,
+        KC_GRV,  KC_1,    KC_2,    KC_3,                                        XXXXXXX, KC_MINS, KC_EQL,  KC_BSPC,
+        KC_TAB,  DM_PLY2, KC_Q,    KC_W,    KC_E,    KC_R,    KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, KC_BSLS,
+        LT_ESC,  KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, LT_QUOT,
+        MO(MIR), KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_MUTE, KC_BTN1, KC_BTN3, KC_BTN2, KC_DEL,  MO(MIR),
+                                            LT_LOCK, KC_SPC,  DF(BASE), KC_ENT
+    ),
+
+    LAYER(GAM_NUM,
+        _______, _______, _______, _______,                                     _______, _______, _______, _______,
+        _______, DM_REC2, KC_9,    KC_8,    KC_7,    _______, _______, KC_F7,   KC_F8,   KC_F9,   KC_F12,  _______,
+        KC_ESC,  MT_GAM0, KC_6,    KC_5,    KC_4,    _______, _______, KC_F4,   KC_F5,   KC_F6,   KC_F11,  KC_QUOT,
+        _______, _______, KC_3,    KC_2,    KC_1,    _______, _______, KC_F1,   KC_F2,   KC_F3,   KC_F10,  _______,
+                                            _______, _______, _______, _______
+    ),
+
 };
 
 // Layer Changes {{{1
+
+void keyboard_post_init_user() {
+    default_layer_set(1UL << BASE);
+}
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     if (IS_LAYER_OFF_STATE(state, NUM))
@@ -271,13 +301,13 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     bool mirror = IS_LAYER_ON_STATE(state, MIR);
     state &= (1UL << MIR) - 1;
     if (mirror)
-        state |= (state | 1) << MIR;
+        state |= (state | default_layer_state) << MIR;
 
     return state;
 }
 
 void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (get_mods() & MOD_MASK_SHIFT) {
+    if (get_mods() & MOD_MASK_SHIFT && IS_LAYER_ON_STATE(layer_state | default_layer_state, BASE)) {
         if (IS_LAYER_OFF(SFT))
             layer_on(SFT);
     } else {
