@@ -9,12 +9,15 @@
 // Custom Keycodes {{{1
 
 enum custom_keycodes {
-    REPEAT = SAFE_RANGE,
+    REPEAT = FN_MIN,
     ID_CAPS,
     LOCK,
+    SFT_SYM,
+    SFT_SYM_MAX = SFT_SYM + (KC_QUES - KC_EXLM),
 };
+_Static_assert(SFT_SYM_MAX <= (uint8_t)FN_MAX);
 
-#define ENCODE_SYM(kc) ((kc) >= KC_EXLM && (kc) <= KC_QUES ? (kc) - KC_EXLM + KC_FN0 : (kc))
+#define ENCODE_SYM(kc) ((kc) >= KC_EXLM && (kc) <= KC_QUES ? SFT_SYM + ((kc) - KC_EXLM) : (kc))
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     bool pressed = record->event.pressed;
@@ -22,8 +25,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if ((IN_RANGE(keycode, QK_LAYER_TAP) || IN_RANGE(keycode, QK_MOD_TAP)) && record->tap.count)
         keycode &= 0xFF;
     uint16_t orig_keycode = keycode;
-    if (IS_FN(keycode))
-        keycode = FN_INDEX(keycode) + KC_EXLM;
+    if (IN_RANGE(keycode, SFT_SYM))
+        keycode = KC_EXLM + (keycode - SFT_SYM);
     bool basic_or_mods = IN_RANGE(keycode, QK_BASIC) || IN_RANGE(keycode, QK_MODS);
 
     static uint16_t last_keycode = KC_NO, repeating_keycode = KC_NO;
@@ -67,7 +70,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    if (keycode != orig_keycode) {
+    if (IS_FN(keycode)) {
+        return false;
+    } else if (keycode != orig_keycode) {
         (pressed ? register_code16 : unregister_code16)(keycode);
         return false;
     }
