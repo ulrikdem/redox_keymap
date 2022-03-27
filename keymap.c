@@ -267,11 +267,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define MT_GAM0 LCTL_T(KC_0)
 
     LAYER(GAM,
-        KC_GRV,  KC_1,    KC_2,    KC_3,                                        XXXXXXX, KC_MINS, KC_EQL,  KC_BSPC,
+        KC_GRV,  KC_1,    KC_2,    KC_3,                                       DF(BASE), KC_MINS, KC_EQL,  KC_BSPC,
         KC_TAB,  DM_PLY2, KC_Q,    KC_W,    KC_E,    KC_R,    KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, KC_BSLS,
         LT_ESC,  KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, LT_QUOT,
         MO(MIR), KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_MUTE, KC_BTN1, KC_BTN3, KC_BTN2, KC_DEL,  MO(MIR),
-                                            LT_LOCK, KC_SPC,  DF(BASE), KC_ENT
+                                            LT_LOCK, KC_SPC,  KC_SPC,  KC_ENT
     ),
 
     LAYER(GAM_NUM,
