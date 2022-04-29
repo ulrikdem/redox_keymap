@@ -9,13 +9,13 @@
 // Custom Keycodes {{{1
 
 enum custom_keycodes {
-    REPEAT = FN_MIN,
+    LOCK = 0xBF,
+    REPEAT,
     ID_CAPS,
-    LOCK,
     SFT_SYM,
     SFT_SYM_MAX = SFT_SYM + (KC_QUES - KC_EXLM),
 };
-_Static_assert(SFT_SYM_MAX <= (uint8_t)FN_MAX);
+_Static_assert(SFT_SYM_MAX < 0xE0);
 
 #define ENCODE_SYM(kc) ((kc) >= KC_EXLM && (kc) <= KC_QUES ? SFT_SYM + ((kc) - KC_EXLM) : (kc))
 
@@ -28,6 +28,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (IN_RANGE(keycode, SFT_SYM))
         keycode = KC_EXLM + (keycode - SFT_SYM);
     bool basic_or_mods = IN_RANGE(keycode, QK_BASIC) || IN_RANGE(keycode, QK_MODS);
+
+    static bool lock_next = false;
+    static layer_state_t locked_layers = 0;
+    if (lock_next && !pressed) {
+        lock_next = false;
+        if (IN_RANGE(keycode, QK_LAYER_TAP))
+            locked_layers |= 1UL << (keycode >> 8 & 0xF);
+        return false;
+    } else if (keycode == LOCK) {
+        if (!pressed)
+            lock_next = true;
+        return false;
+    } else if (locked_layers && keycode == KC_ESC && pressed) {
+        layer_and(~locked_layers);
+        locked_layers = 0;
+        return false;
+    }
 
     static uint16_t last_keycode = KC_NO, repeating_keycode = KC_NO;
     if (keycode == REPEAT) {
@@ -54,25 +71,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         identifier_caps = !identifier_caps;
         tap_code(KC_CAPS);
     }
+    if (keycode == ID_CAPS)
+        return false;
 
-    static bool lock_next = false;
-    static layer_state_t locked_layers = 0;
-    if (lock_next && !pressed) {
-        lock_next = false;
-        if (IN_RANGE(keycode, QK_LAYER_TAP))
-            locked_layers |= 1UL << (keycode >> 8 & 0xF);
-        return false;
-    } else if (keycode == LOCK && !pressed) {
-        lock_next = true;
-    } else if (locked_layers && keycode == KC_ESC && pressed) {
-        layer_and(~locked_layers);
-        locked_layers = 0;
-        return false;
-    }
-
-    if (IS_FN(keycode)) {
-        return false;
-    } else if (keycode != orig_keycode) {
+    if (keycode != orig_keycode) {
         (pressed ? register_code16 : unregister_code16)(keycode);
         return false;
     }
@@ -117,7 +119,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                                         k44,    k45,    k46,    k47 \
     )
 
-#undef M
 #define M(kc) ( \
     MIRROR_KEY(kc, KC_LPRN, KC_RPRN) \
     MIRROR_KEY(kc, KC_LBRC, KC_RBRC) \
@@ -244,7 +245,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     LAYER(NAV,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
-        _______, DM_REC1, DM_PLY1, DF(GAM), LOCK,    RESET,   KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
+        _______, DM_REC1, DM_PLY1, DF(GAM), LOCK,    QK_BOOT, KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, TG(MOU), KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
         _______, XXXXXXX, OSM_ALG, ID_CAPS, REPEAT,  XXXXXXX, KC_MUTE, KC_INS,  KC_CAPS, KC_APP,  KC_DEL,  _______,
                                             KC_SPC,  _______, KC_SPC,  _______
