@@ -249,9 +249,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     LAYER(NAV,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
-        _______, DM_REC1, DM_PLY1, DF(GAM), XXXXXXX, QK_BOOT, KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
-        _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, TG(MOU), KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
-        _______, XXXXXXX, OSM_ALG, ID_CAPS, REPEAT,  XXXXXXX, KC_MUTE, KC_INS,  KC_CAPS, KC_APP,  KC_DEL,  _______,
+        _______, DM_REC1, DM_PLY1, DF(GAM), XXXXXXX, KC_BRIU, KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
+        _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, KC_BRID, KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
+        _______, XXXXXXX, OSM_ALG, ID_CAPS, REPEAT,  TG(MOU), KC_MUTE, KC_INS,  KC_CAPS, KC_APP,  KC_DEL,  _______,
                                    KC_SPC,  _______, _______, _______, KC_SPC,  _______
     ),
 
@@ -267,7 +267,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     LAYER(FN,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
-        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PAUS, KC_F7,   KC_F8,   KC_F9,   KC_F12,  _______,
+        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT, KC_PAUS, KC_F7,   KC_F8,   KC_F9,   KC_F12,  _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, XXXXXXX, KC_SCRL, KC_F4,   KC_F5,   KC_F6,   KC_F11,  _______,
         _______, XXXXXXX, OSM_ALG, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSCR, KC_F1,   KC_F2,   KC_F3,   KC_F10,  _______,
                                    _______, _______, LOCK,    LOCK,    _______, _______
@@ -293,8 +293,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     LAYER(GAM_NUM,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
-        _______, MT_ALT0, KC_9,    KC_8,    KC_7,    XXXXXXX, XXXXXXX, KC_F7,   KC_F8,   KC_F9,   KC_F12,  _______,
-        _______, MT_CTL0, KC_6,    KC_5,    KC_4,    XXXXXXX, XXXXXXX, KC_F4,   KC_F5,   KC_F6,   KC_F11,  _______,
+        _______, MT_ALT0, KC_9,    KC_8,    KC_7,    XXXXXXX, KC_BRIU, KC_F7,   KC_F8,   KC_F9,   KC_F12,  _______,
+        _______, MT_CTL0, KC_6,    KC_5,    KC_4,    XXXXXXX, KC_BRID, KC_F4,   KC_F5,   KC_F6,   KC_F11,  _______,
         _______, MT_SFT0, KC_3,    KC_2,    KC_1,    XXXXXXX, XXXXXXX, KC_F1,   KC_F2,   KC_F3,   KC_F10,  _______,
                                    DM_REC2, _______, LOCK,    DF_BASE, _______, _______
     ),
