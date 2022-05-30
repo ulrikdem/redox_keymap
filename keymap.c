@@ -13,7 +13,6 @@ enum custom_keycodes {
     LOCK,
     DF_BASE,
     REPEAT,
-    ID_CAPS,
     SFT_SYM,
     SFT_SYM_MAX = SFT_SYM + (KC_QUES - KC_EXLM),
 };
@@ -70,26 +69,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (get_mods() & MOD_MASK_GUI) last_keycode |= QK_LGUI;
     }
 
-    static bool identifier_caps = false;
-    uint8_t shift = get_mods() & MOD_MASK_SHIFT;
-    bool is_identifier = (
-        (keycode >= KC_A && keycode <= KC_Z)
-        || (keycode >= KC_1 && keycode <= KC_0 && !shift)
-        || (keycode == KC_MINS && shift) || keycode == KC_UNDS
-        || keycode == KC_BSPC
-    ) && !(get_mods() & MOD_MASK_CAG);
-    if (pressed && (keycode == ID_CAPS || (identifier_caps && basic_or_mods && !is_identifier))) {
-        identifier_caps = !identifier_caps;
-        tap_code(KC_CAPS);
-    }
-    if (keycode == ID_CAPS)
-        return false;
-
     if (keycode != orig_keycode) {
         (pressed ? register_code16 : unregister_code16)(keycode);
         return false;
     }
     return true;
+}
+
+bool caps_word_press_user(uint16_t keycode) {
+    if (keycode >= KC_A && keycode <= KC_Z)
+        add_weak_mods(MOD_BIT(KC_LSFT));
+    return (keycode >= KC_A && keycode <= KC_0) || keycode == KC_UNDS || keycode == KC_BSPC;
 }
 
 // Layout Macros {{{1
@@ -251,7 +241,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, DM_REC1, DM_PLY1, DF(GAM), XXXXXXX, KC_BRIU, KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, KC_BRID, KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
-        _______, XXXXXXX, OSM_ALG, ID_CAPS, REPEAT,  TG(MOU), KC_MUTE, KC_INS,  KC_CAPS, KC_APP,  KC_DEL,  _______,
+        _______, XXXXXXX, OSM_ALG, CAPSWRD, REPEAT,  TG(MOU), KC_MUTE, KC_INS,  KC_CAPS, KC_APP,  KC_DEL,  _______,
                                    KC_SPC,  _______, _______, _______, KC_SPC,  _______
     ),
 
