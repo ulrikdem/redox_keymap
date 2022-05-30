@@ -186,7 +186,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define MT_DOT RALT_T(KC_DOT)
 
     LAYER(BASE,
-        KC_GRV,  KC_EXLM, KC_CIRC, KC_DLR,                                      KC_ASTR, KC_MINS, KC_EQL,  KC_BSPC,
+        KC_GRV,  KC_EXLM, KC_CIRC, KC_DLR,                                      KC_UNDS, KC_MINS, KC_EQL,  KC_BSPC,
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSLS,
         KC_ESC,  MT_A,    MT_R,    MT_S,    MT_T,    KC_G,    KC_M,    MT_N,    MT_E,    MT_I,    MT_O,    KC_QUOT,
         MO(MIR), KC_Z,    MT_X,    KC_C,    KC_D,    KC_V,    KC_K,    KC_H,    KC_COMM, MT_DOT,  KC_SLSH, MO(MIR),
@@ -194,7 +194,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     LAYER(SFT,
-        _______, KC_AT,   KC_HASH, KC_PERC,                                     KC_AMPR, _______, _______, _______,
+        _______, KC_AT,   KC_HASH, KC_PERC,                                     KC_AMPR, KC_ASTR, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -224,7 +224,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     LAYER(KP,
-        _______, _______, _______, _______,                                     KC_PAST, KC_PMNS, _______, _______,
+        _______, _______, _______, _______,                                     _______, KC_PMNS, _______, _______,
         _______, _______, _______, _______, _______, _______, KC_NUM,  KC_P7,   KC_P8,   KC_P9,   _______, _______,
         _______, _______, _______, _______, _______, _______, _______, KC_P4,   KC_P5,   KC_P6,   KC_P0,   _______,
         _______, _______, _______, _______, KC_PDOT, _______, _______, KC_P1,   KC_P2,   KC_P3,   KC_PSLS, _______,
@@ -232,7 +232,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     LAYER(KP_SFT,
-        _______, _______, _______, _______,                                     KC_AMPR, KC_UNDS, KC_PPLS, _______,
+        _______, _______, _______, _______,                                     _______, KC_PAST, KC_PPLS, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_QUES, _______,
@@ -284,7 +284,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define MT_SFT0 LSFT_T(KC_0)
 
     LAYER(GAM,
-        KC_GRV,  KC_1,    KC_2,    KC_3,                                        KC_ASTR, KC_MINS, KC_EQL,  KC_BSPC,
+        KC_GRV,  KC_1,    KC_2,    KC_3,                                        KC_UNDS, KC_MINS, KC_EQL,  KC_BSPC,
         KC_TAB,  KC_LALT, KC_Q,    KC_W,    KC_E,    KC_R,    KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, KC_BSLS,
         KC_ESC,  KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, KC_QUOT,
         MO(MIR), KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_MUTE, KC_BTN1, KC_BTN3, KC_BTN2, KC_DEL,  MO(MIR),
@@ -334,5 +334,6 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 const key_override_t
+    past_override = ko_make_basic(MOD_MASK_SHIFT, KC_PAST, KC_PAST),
     ppls_override = ko_make_basic(MOD_MASK_SHIFT, KC_PPLS, KC_PPLS),
-    **key_overrides = (const key_override_t *[]){&ppls_override, NULL};
+    **key_overrides = (const key_override_t *[]){&past_override, &ppls_override, NULL};
