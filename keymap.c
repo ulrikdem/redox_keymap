@@ -62,11 +62,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         repeating_keycode = keycode;
     } else if (basic_or_mods && pressed) {
         last_keycode = keycode;
-        if (get_mods() & MOD_MASK_CTRL) last_keycode |= QK_LCTL;
-        if (get_mods() & MOD_MASK_SHIFT) last_keycode |= QK_LSFT;
-        if (get_mods() & MOD_BIT(KC_LALT)) last_keycode |= QK_LALT;
-        if (get_mods() & MOD_BIT(KC_RALT)) last_keycode |= QK_RALT;
-        if (get_mods() & MOD_MASK_GUI) last_keycode |= QK_LGUI;
+        uint8_t mods = get_mods() | get_oneshot_mods();
+        if (mods & MOD_MASK_CTRL) last_keycode |= QK_LCTL;
+        if (mods & MOD_MASK_SHIFT) last_keycode |= QK_LSFT;
+        if (mods & MOD_BIT(KC_LALT)) last_keycode |= QK_LALT;
+        if (mods & MOD_BIT(KC_RALT)) last_keycode |= QK_RALT;
+        if (mods & MOD_MASK_GUI) last_keycode |= QK_LGUI;
     }
 
     if (keycode != orig_keycode) {
@@ -314,7 +315,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 }
 
 void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (get_mods() & MOD_MASK_SHIFT && IS_LAYER_ON_STATE(layer_state | default_layer_state, BASE)) {
+    if ((get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT && IS_LAYER_ON_STATE(layer_state | default_layer_state, BASE)) {
         if (IS_LAYER_OFF(SFT))
             layer_on(SFT);
     } else {
