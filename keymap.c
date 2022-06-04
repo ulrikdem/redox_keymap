@@ -242,7 +242,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, DM_REC1, DM_PLY1, DF(GAM), XXXXXXX, KC_BRIU, KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, KC_BRID, KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
-        _______, XXXXXXX, OSM_ALG, CAPSWRD, REPEAT,  TG(MOU), KC_MUTE, KC_INS,  KC_CAPS, KC_APP,  KC_DEL,  _______,
+        _______, XXXXXXX, OSM_ALG, CAPSWRD, TG(MOU), XXXXXXX, KC_MUTE, KC_APP,  KC_INS,  REPEAT,  KC_DEL,  _______,
                                    KC_SPC,  _______, _______, _______, KC_SPC,  _______
     ),
 
@@ -250,7 +250,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U, _______,
         _______, _______, _______, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D, _______,
-        _______, _______, _______, _______, _______, _______, _______, KC_BTN4, XXXXXXX, KC_BTN5, KC_BTN3, _______,
+        _______, _______, _______, _______, _______, _______, _______, KC_BTN4, KC_BTN3, KC_BTN5, KC_BTN3, _______,
                                    _______, _______, _______, _______, KC_BTN1, KC_BTN2
     ),
 
@@ -260,7 +260,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT, KC_PAUS, KC_F7,   KC_F8,   KC_F9,   KC_F12,  _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, XXXXXXX, KC_SCRL, KC_F4,   KC_F5,   KC_F6,   KC_F11,  _______,
-        _______, XXXXXXX, OSM_ALG, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSCR, KC_F1,   KC_F2,   KC_F3,   KC_F10,  _______,
+        _______, XXXXXXX, OSM_ALG, KC_CAPS, XXXXXXX, XXXXXXX, KC_PSCR, KC_F1,   KC_F2,   KC_F3,   KC_F10,  _______,
                                    _______, _______, LOCK,    LOCK,    _______, _______
     ),
 
