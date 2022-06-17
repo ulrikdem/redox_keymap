@@ -309,7 +309,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     bool mirror = IS_LAYER_ON_STATE(state, MIR);
     state &= (1UL << MIR) - 1;
     if (mirror)
-        state |= (state | default_layer_state) << MIR;
+        state |= (state | default_layer_state | 1) << MIR;
 
     return state;
 }
