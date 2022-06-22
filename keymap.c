@@ -3,6 +3,7 @@
 // vim: foldmethod=marker
 
 #include QMK_KEYBOARD_H
+#include "process_caps_word.h"
 
 #define IN_RANGE(kc, range) ((uint16_t)(kc) >= range && (uint16_t)(kc) <= range##_MAX)
 
@@ -71,6 +72,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     if (keycode != orig_keycode) {
+        process_caps_word(keycode, record);
         (pressed ? register_code16 : unregister_code16)(keycode);
         return false;
     }
