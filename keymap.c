@@ -91,36 +91,36 @@ bool caps_word_press_user(uint16_t keycode) {
     k00, k01, k02, k03,                     k08, k09, k0a, k0b, \
     k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k1a, k1b, \
     k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k2a, k2b, \
-         k31, k32, k33, k34, k35, k36, k37, k38, k39, k3a, \
-    k40,           k43, k44, k45, k46, k47, k48,           k4b \
+    k30, k31, k32, k33, k34, k35, k36, k37, k38, k39, k3a, k3b, \
+                   k43, k44, k45, k46, k47, k48 \
 ) LAYOUT( \
     k00,   k01,   k02,   k03,   KC_NO, KC_NO,                             KC_NO, KC_NO, k08,   k09,   k0a,   k0b, \
     k10,   k11,   k12,   k13,   k14,   k15,   KC_NO,               KC_NO, k16,   k17,   k18,   k19,   k1a,   k1b, \
     k20,   k21,   k22,   k23,   k24,   k25,   KC_NO,               KC_NO, k26,   k27,   k28,   k29,   k2a,   k2b, \
-    KC_NO, k31,   k32,   k33,   k34,   k35,   KC_NO, KC_NO, KC_NO, KC_NO, k36,   k37,   k38,   k39,   k3a,   KC_NO, \
-    k40,   KC_NO, KC_NO, KC_NO,        k43,   k44,   k45,   k46,   k47,   k48,          KC_NO, KC_NO, KC_NO, k4b \
+    k30,   k31,   k32,   k33,   k34,   k35,   KC_NO, KC_NO, KC_NO, KC_NO, k36,   k37,   k38,   k39,   k3a,   k3b, \
+    KC_NO, KC_NO, KC_NO, KC_NO,        k43,   k44,   k45,   k46,   k47,   k48,          KC_NO, KC_NO, KC_NO, KC_NO \
 )
 
 #define LAYER(layer, \
     k00, k01, k02, k03,                     k08, k09, k0a, k0b, \
     k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k1a, k1b, \
     k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k2a, k2b, \
-         k31, k32, k33, k34, k35, k36, k37, k38, k39, k3a, \
-    k40,           k43, k44, k45, k46, k47, k48,           k4b \
+    k30, k31, k32, k33, k34, k35, k36, k37, k38, k39, k3a, k3b, \
+                   k43, k44, k45, k46, k47, k48 \
 ) \
     [layer] = LAYOUT_ulrikdem( \
         k00, k01, k02, k03,                     k08, k09, k0a, k0b, \
         k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k1a, k1b, \
         k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k2a, k2b, \
-             k31, k32, k33, k34, k35, k36, k37, k38, k39, k3a, \
-        k40,           k43, k44, k45, k46, k47, k48,           k4b \
+        k30, k31, k32, k33, k34, k35, k36, k37, k38, k39, k3a, k3b, \
+                       k43, k44, k45, k46, k47, k48 \
     ), \
     [layer + MIR] = LAYOUT_ulrikdem( \
         M(k0b), M(k0a), M(k09), M(k08),                                 M(k03), M(k02), M(k01), M(k00), \
         M(k1b), M(k1a), M(k19), M(k18), M(k17), M(k16), M(k15), M(k14), M(k13), M(k12), M(k11), M(k10), \
         M(k2b), M(k2a), M(k29), M(k28), M(k27), M(k26), M(k25), M(k24), M(k23), M(k22), M(k21), M(k20), \
-                M(k3a), M(k39), M(k38), M(k37), M(k36), M(k35), M(k34), M(k33), M(k32), M(k31), \
-        k40,                    k43,    k44,    k45,    k46,    k47,    k48,                    k4b \
+        M(k3b), M(k3a), M(k39), M(k38), M(k37), M(k36), M(k35), M(k34), M(k33), M(k32), M(k31), M(k30), \
+                                k43,    k44,    k45,    k46,    k47,    k48 \
     )
 
 #define M(kc) ( \
@@ -182,16 +182,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_GRV,  KC_EXLM, KC_CIRC, KC_DLR,                                      KC_UNDS, KC_MINS, KC_EQL,  KC_BSPC,
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSLS,
         KC_ESC,  MT_A,    MT_R,    MT_S,    MT_T,    KC_G,    KC_M,    MT_N,    MT_E,    MT_I,    MT_O,    KC_QUOT,
-                 KC_Z,    MT_X,    KC_C,    KC_D,    KC_V,    KC_K,    KC_H,    KC_COMM, MT_DOT,  KC_SLSH,
-        MO(MIR),                   LT_SPC,  LT_ENT,  LT_LOCK, LT_LOCK, LT_SPC,  LT_ENT,                    MO(MIR)
+        MO(MIR), KC_Z,    MT_X,    KC_C,    KC_D,    KC_V,    KC_K,    KC_H,    KC_COMM, MT_DOT,  KC_SLSH, MO(MIR),
+                                   LT_SPC,  LT_ENT,  LT_LOCK, LT_LOCK, LT_SPC,  LT_ENT
     ),
 
     LAYER(SFT,
         _______, KC_AT,   KC_HASH, KC_PERC,                                     KC_AMPR, KC_ASTR, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______,                   _______, _______, _______, _______, _______, _______,                   _______
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+                                   _______, _______, _______, _______, _______, _______
     ),
 
 // Numeric Layers {{{1
@@ -212,24 +212,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, XXXXXXX, KC_LBRC, KC_RBRC, XXXXXXX, XXXXXXX, TG(KP),  KC_7,    KC_8,    KC_9,    _______, _______,
         _______, MT_LT,   MT_LPRN, MT_RPRN, MT_GT,   XXXXXXX, XXXXXXX, MT_4,    MT_5,    MT_6,    MT_0,    _______,
-                 XXXXXXX, MT_LCBR, KC_RCBR, KC_DOT,  KC_COMM, XXXXXXX, KC_1,    KC_2,    MT_3,    _______,
-        _______,                   _______, KC_ENT,  _______, _______, _______, KC_ENT,                    _______
+        _______, XXXXXXX, MT_LCBR, KC_RCBR, KC_DOT,  KC_COMM, XXXXXXX, KC_1,    KC_2,    MT_3,    _______, _______,
+                                   _______, KC_ENT,  _______, _______, _______, KC_ENT
     ),
 
     LAYER(KP,
         _______, _______, _______, _______,                                     _______, KC_PMNS, _______, _______,
         _______, _______, _______, _______, _______, _______, KC_NUM,  KC_P7,   KC_P8,   KC_P9,   _______, _______,
         _______, _______, _______, _______, _______, _______, _______, KC_P4,   KC_P5,   KC_P6,   KC_P0,   _______,
-                 _______, _______, _______, KC_PDOT, _______, _______, KC_P1,   KC_P2,   KC_P3,   KC_PSLS,
-        _______,                   _______, KC_PENT, _______, _______, _______, KC_PENT,                   _______
+        _______, _______, _______, _______, KC_PDOT, _______, _______, KC_P1,   KC_P2,   KC_P3,   KC_PSLS, _______,
+                                   _______, KC_PENT, _______, _______, _______, KC_PENT
     ),
 
     LAYER(KP_SFT,
         _______, _______, _______, _______,                                     _______, KC_PAST, KC_PPLS, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-                 _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_QUES,
-        _______,                   _______, _______, _______, _______, _______, _______,                   _______
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_QUES, _______,
+                                   _______, _______, _______, _______, _______, _______
     ),
 
 // Navigation Layers {{{1
@@ -244,16 +244,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, DM_REC1, DM_PLY1, DF(GAM), XXXXXXX, KC_BRIU, KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, KC_BRID, KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
-                 XXXXXXX, OSM_ALG, CAPSWRD, TG(MOU), XXXXXXX, KC_MUTE, KC_APP,  KC_INS,  REPEAT,  KC_DEL,
-        _______,                   KC_SPC,  _______, _______, _______, KC_SPC,  _______,                   _______
+        _______, XXXXXXX, OSM_ALG, CAPSWRD, TG(MOU), XXXXXXX, KC_MUTE, KC_APP,  KC_INS,  REPEAT,  KC_DEL,  _______,
+                                   KC_SPC,  _______, _______, _______, KC_SPC,  _______
     ),
 
     LAYER(MOU,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U, _______,
         _______, _______, _______, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D, _______,
-                 _______, _______, _______, _______, _______, _______, KC_BTN4, KC_BTN3, KC_BTN5, KC_BTN3,
-        _______,                   _______, _______, _______, _______, KC_BTN1, KC_BTN2,                   _______
+        _______, _______, _______, _______, _______, _______, _______, KC_BTN4, KC_BTN3, KC_BTN5, KC_BTN3, _______,
+                                   _______, _______, _______, _______, KC_BTN1, KC_BTN2
     ),
 
 // Function Layer {{{1
@@ -262,8 +262,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT, KC_PAUS, KC_F7,   KC_F8,   KC_F9,   KC_F12,  _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, XXXXXXX, KC_SCRL, KC_F4,   KC_F5,   KC_F6,   KC_F11,  _______,
-                 XXXXXXX, OSM_ALG, KC_CAPS, XXXXXXX, XXXXXXX, KC_PSCR, KC_F1,   KC_F2,   KC_F3,   KC_F10,
-        _______,                   _______, _______, LOCK,    LOCK,    _______, _______,                   _______
+        _______, XXXXXXX, OSM_ALG, KC_CAPS, XXXXXXX, XXXXXXX, KC_PSCR, KC_F1,   KC_F2,   KC_F3,   KC_F10,  _______,
+                                   _______, _______, LOCK,    LOCK,    _______, _______
     ),
 
 // Gaming Layers {{{1
@@ -280,16 +280,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_1,    KC_2,    KC_3,    KC_4,                                        KC_UNDS, KC_MINS, KC_EQL,  KC_BSPC,
         KC_TAB,  KC_LALT, KC_Q,    KC_W,    KC_E,    KC_R,    KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, KC_BSLS,
         KC_ESC,  KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,    KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, KC_QUOT,
-                 KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    KC_MUTE, KC_BTN1, KC_BTN3, KC_BTN2, KC_DEL,
-        MO(MIR),                   LT_PLY2, KC_SPC,  LT_GLOC, LT_BASE, KC_SPC,  KC_ENT,                    MO(MIR)
+        MO(MIR), KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    KC_MUTE, KC_BTN1, KC_BTN3, KC_BTN2, KC_DEL,  MO(MIR),
+                                   LT_PLY2, KC_SPC,  LT_GLOC, LT_BASE, KC_SPC,  KC_ENT
     ),
 
     LAYER(GAM_NUM,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, MT_ALT0, KC_9,    KC_8,    KC_7,    XXXXXXX, KC_BRIU, KC_F7,   KC_F8,   KC_F9,   KC_F12,  _______,
         _______, MT_SFT0, KC_6,    KC_5,    KC_4,    XXXXXXX, KC_BRID, KC_F4,   KC_F5,   KC_F6,   KC_F11,  _______,
-                 MT_CTL0, KC_3,    KC_2,    KC_1,    XXXXXXX, XXXXXXX, KC_F1,   KC_F2,   KC_F3,   KC_F10,
-        _______,                   DM_REC2, _______, LOCK,    DF_BASE, _______, _______,                   _______
+        _______, MT_CTL0, KC_3,    KC_2,    KC_1,    XXXXXXX, XXXXXXX, KC_F1,   KC_F2,   KC_F3,   KC_F10,  _______,
+                                   DM_REC2, _______, LOCK,    DF_BASE, _______, _______
     ),
 
 };
