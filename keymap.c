@@ -183,7 +183,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSLS,
         KC_ESC,  MT_A,    MT_R,    MT_S,    MT_T,    KC_G,    KC_M,    MT_N,    MT_E,    MT_I,    MT_O,    KC_QUOT,
         MO(MIR), KC_Z,    MT_X,    KC_C,    KC_D,    KC_V,    KC_K,    KC_H,    KC_COMM, MT_DOT,  KC_SLSH, MO(MIR),
-                                   LT_SPC,  LT_ENT,  LT_LOCK, LT_LOCK, LT_SPC,  LT_ENT
+                                   LT_LOCK, LT_ENT,  LT_SPC,  LT_LOCK, LT_SPC,  LT_ENT
     ),
 
     LAYER(SFT,
@@ -245,7 +245,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, DM_REC1, DM_PLY1, DF(GAM), XXXXXXX, KC_BRIU, KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, KC_BRID, KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
         _______, XXXXXXX, OSM_ALG, CAPSWRD, TG(MOU), XXXXXXX, KC_MUTE, KC_APP,  KC_INS,  REPEAT,  KC_DEL,  _______,
-                                   KC_SPC,  _______, _______, _______, KC_SPC,  _______
+                                   _______, _______, KC_SPC,  _______, KC_SPC,  _______
     ),
 
     LAYER(MOU,
@@ -263,7 +263,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT, KC_PAUS, KC_F7,   KC_F8,   KC_F9,   KC_F12,  _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, XXXXXXX, KC_SCRL, KC_F4,   KC_F5,   KC_F6,   KC_F11,  _______,
         _______, XXXXXXX, OSM_ALG, KC_CAPS, XXXXXXX, XXXXXXX, KC_PSCR, KC_F1,   KC_F2,   KC_F3,   KC_F10,  _______,
-                                   _______, _______, LOCK,    LOCK,    _______, _______
+                                   LOCK,    _______, _______, LOCK,    _______, _______
     ),
 
 // Gaming Layers {{{1
@@ -281,7 +281,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_LALT, KC_Q,    KC_W,    KC_E,    KC_R,    KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, KC_BSLS,
         KC_ESC,  KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,    KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, KC_QUOT,
         MO(MIR), KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    KC_MUTE, KC_BTN1, KC_BTN3, KC_BTN2, KC_DEL,  MO(MIR),
-                                   LT_PLY2, KC_SPC,  LT_GLOC, LT_BASE, KC_SPC,  KC_ENT
+                                   LT_GLOC, KC_SPC,  LT_PLY2, LT_BASE, KC_SPC,  KC_ENT
     ),
 
     LAYER(GAM_NUM,
@@ -289,7 +289,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, MT_ALT0, KC_9,    KC_8,    KC_7,    XXXXXXX, KC_BRIU, KC_F7,   KC_F8,   KC_F9,   KC_F12,  _______,
         _______, MT_SFT0, KC_6,    KC_5,    KC_4,    XXXXXXX, KC_BRID, KC_F4,   KC_F5,   KC_F6,   KC_F11,  _______,
         _______, MT_CTL0, KC_3,    KC_2,    KC_1,    XXXXXXX, XXXXXXX, KC_F1,   KC_F2,   KC_F3,   KC_F10,  _______,
-                                   DM_REC2, _______, LOCK,    DF_BASE, _______, _______
+                                   LOCK,    _______, DM_REC2, DF_BASE, _______, _______
     ),
 
 };
