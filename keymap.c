@@ -10,14 +10,14 @@
 // Custom Keycodes {{{1
 
 enum custom_keycodes {
-    PLY2 = 0xBF,
+    PLY2 = KC_APP + 1,
     LOCK,
     DF_BASE,
     REPEAT,
     SFT_SYM,
     SFT_SYM_MAX = SFT_SYM + (KC_QUES - KC_EXLM),
 };
-_Static_assert(SFT_SYM_MAX < 0xE0);
+_Static_assert((uint16_t)SFT_SYM_MAX < KC_MUTE);
 
 #define ENCODE_SYM(kc) ((kc) >= KC_EXLM && (kc) <= KC_QUES ? SFT_SYM + ((kc) - KC_EXLM) : (kc))
 
@@ -244,7 +244,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, DM_REC1, DM_PLY1, DF(GAM), XXXXXXX, KC_BRIU, KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, KC_BRID, KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
-        _______, XXXXXXX, OSM_ALG, CAPSWRD, TG(MOU), XXXXXXX, KC_MUTE, KC_APP,  KC_INS,  REPEAT,  KC_DEL,  _______,
+        _______, XXXXXXX, OSM_ALG, CW_TOGG, TG(MOU), XXXXXXX, KC_MUTE, KC_APP,  KC_INS,  REPEAT,  KC_DEL,  _______,
                                    _______, _______, KC_SPC,  _______, KC_SPC,  _______
     ),
 

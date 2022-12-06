@@ -1,9 +1,9 @@
 #pragma once
 
 #undef MANUFACTURER
-#define MANUFACTURER ulrikdem
+#define MANUFACTURER "ulrikdem"
 #undef PRODUCT
-#define PRODUCT Redox Keyboard
+#define PRODUCT "Redox Keyboard"
 
 #define EE_HANDS
 
