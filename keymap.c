@@ -210,7 +210,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     LAYER(NUM,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
-        _______, XXXXXXX, KC_LBRC, KC_RBRC, XXXXXXX, XXXXXXX, TG(KP),  KC_7,    KC_8,    KC_9,    _______, _______,
+        _______, XXXXXXX, KC_LBRC, KC_RBRC, KC_APP,  XXXXXXX, TG(KP),  KC_7,    KC_8,    KC_9,    _______, _______,
         _______, MT_LT,   MT_LPRN, MT_RPRN, MT_GT,   XXXXXXX, XXXXXXX, MT_4,    MT_5,    MT_6,    MT_0,    _______,
         _______, XXXXXXX, MT_LCBR, KC_RCBR, KC_DOT,  KC_COMM, XXXXXXX, KC_1,    KC_2,    MT_3,    _______, _______,
                                    _______, KC_ENT,  _______, _______, _______, KC_ENT
@@ -244,7 +244,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, DM_REC1, DM_PLY1, DF(GAM), XXXXXXX, KC_BRIU, KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, KC_BRID, KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
-        _______, XXXXXXX, OSM_ALG, CW_TOGG, TG(MOU), XXXXXXX, KC_MUTE, KC_APP,  KC_INS,  REPEAT,  KC_DEL,  _______,
+        _______, XXXXXXX, OSM_ALG, CW_TOGG, TG(MOU), XXXXXXX, KC_MUTE, KC_INS,  XXXXXXX, REPEAT,  KC_DEL,  _______,
                                    _______, _______, KC_SPC,  _______, KC_SPC,  _______
     ),
 
@@ -252,7 +252,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U, _______,
         _______, _______, _______, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D, _______,
-        _______, _______, _______, _______, _______, _______, _______, KC_BTN4, KC_BTN3, KC_BTN5, KC_BTN3, _______,
+        _______, _______, _______, _______, _______, _______, _______, KC_BTN4, XXXXXXX, KC_BTN5, KC_BTN3, _______,
                                    _______, _______, _______, _______, KC_BTN1, KC_BTN2
     ),
 
