@@ -302,7 +302,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // Layer Changes {{{1
 
-void keyboard_post_init_user() {
+void keyboard_post_init_user(void) {
     default_layer_set(1UL << BASE);
 }
 
