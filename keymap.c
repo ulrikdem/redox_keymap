@@ -51,6 +51,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
+    if (IN_RANGE(keycode, QK_ONE_SHOT_LAYER)) {
+        if (!record->tap.count && !pressed)
+            clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
+        else if (record->tap.count && pressed
+                && is_oneshot_layer_active() && get_oneshot_layer() == QK_ONE_SHOT_LAYER_GET_LAYER(keycode))
+            return false;
+    }
+
     if (keycode == DF_BASE) {
         if (!pressed)
             keyboard_post_init_user();
