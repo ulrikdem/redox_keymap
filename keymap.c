@@ -178,11 +178,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define MT_O RGUI_T(KC_O)
 #define MT_DOT RALT_T(KC_DOT)
 
+#define OSL_MIR OSL(MIR)
+
     LAYER(BASE,
         KC_GRV,  KC_EXLM, KC_CIRC, KC_DLR,                                      KC_UNDS, KC_MINS, KC_EQL,  KC_BSPC,
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSLS,
         KC_ESC,  MT_A,    MT_R,    MT_S,    MT_T,    KC_G,    KC_M,    MT_N,    MT_E,    MT_I,    MT_O,    KC_QUOT,
-        MO(MIR), KC_Z,    MT_X,    KC_C,    KC_D,    KC_V,    KC_K,    KC_H,    KC_COMM, MT_DOT,  KC_SLSH, MO(MIR),
+        OSL_MIR, KC_Z,    MT_X,    KC_C,    KC_D,    KC_V,    KC_K,    KC_H,    KC_COMM, MT_DOT,  KC_SLSH, OSL_MIR,
                                    LT_LOCK, LT_ENT,  LT_SPC,  LT_LOCK, LT_SPC,  LT_ENT
     ),
 
@@ -276,7 +278,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_1,    KC_2,    KC_3,    KC_4,                                        KC_UNDS, KC_MINS, KC_EQL,  KC_BSPC,
         KC_TAB,  KC_LALT, KC_Q,    KC_W,    KC_E,    KC_R,    KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, KC_BSLS,
         KC_ESC,  KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,    KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, KC_QUOT,
-        MO(MIR), KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    KC_MUTE, KC_BTN1, KC_BTN3, KC_BTN2, KC_DEL,  MO(MIR),
+        OSL_MIR, KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    KC_MUTE, KC_BTN1, KC_BTN3, KC_BTN2, KC_DEL,  OSL_MIR,
                                    LT_GLOC, KC_SPC,  LT_PLY2, LT_BASE, KC_SPC,  KC_ENT
     ),
 
