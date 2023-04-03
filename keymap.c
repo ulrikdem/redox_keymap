@@ -42,8 +42,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     } else if (lock_next && !pressed) {
         lock_next = false;
-        if (IN_RANGE(keycode, QK_LAYER_TAP))
-            locked_layers |= 1UL << (keycode >> 8 & 0xF);
+        if (IN_RANGE(keycode, QK_LAYER_TAP)
+                && keymap_key_to_keycode(QK_LAYER_TAP_GET_LAYER(keycode), record->event.key) != KC_TRANSPARENT)
+            locked_layers |= 1UL << QK_LAYER_TAP_GET_LAYER(keycode);
         return false;
     } else if (locked_layers && keycode == KC_ESC && pressed) {
         layer_and(~locked_layers);
@@ -278,24 +279,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // Gaming Layers {{{1
 
-#define LT_PLY2 LT(BASE, PLY2)
 #define LT_GLOC LT(GAM_NUM, LOCK)
-#define LT_BASE LT(GAM_NUM, DF_BASE)
+#define LT_PLY2 LT(BASE, PLY2)
 
     LAYER(GAM,
-        KC_1,    KC_2,    KC_3,    KC_4,                                        KC_UNDS, KC_MINS, KC_EQL,  KC_BSPC,
-        KC_TAB,  KC_LALT, KC_Q,    KC_W,    KC_E,    KC_R,    KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, KC_BSLS,
-        KC_ESC,  KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,    KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, KC_QUOT,
-        OSL_MIR, KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    KC_MUTE, KC_BTN1, KC_BTN3, KC_BTN2, KC_DEL,  OSL_MIR,
-                                   LT_GLOC, KC_SPC,  LT_PLY2, LT_BASE, KC_SPC,  KC_ENT
+        KC_1,    KC_2,    KC_3,    KC_4,                                        KC_BTN1, KC_BTN3, KC_BTN2, KC_BSPC,
+        KC_TAB,  KC_LALT, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_F7,   KC_F8,   KC_F9,   KC_F12,  KC_BSLS,
+        KC_ESC,  KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_F4,   KC_F5,   KC_F6,   KC_F11,  KC_QUOT,
+        OSL_MIR, KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    DM_REC2, KC_F1,   KC_F2,   KC_F3,   KC_F10,  OSL_MIR,
+                                   LT_GLOC, KC_SPC,  LT_PLY2, DF_BASE, LT_SPC,  KC_ENT
     ),
 
     LAYER(GAM_NUM,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
-        _______, _______, KC_7,    KC_8,    KC_9,    XXXXXXX, KC_BRIU, KC_F7,   KC_F8,   KC_F9,   KC_F12,  _______,
-        _______, _______, KC_4,    KC_5,    KC_6,    KC_0,    KC_BRID, KC_F4,   KC_F5,   KC_F6,   KC_F11,  _______,
-        _______, _______, KC_1,    KC_2,    KC_3,    XXXXXXX, XXXXXXX, KC_F1,   KC_F2,   KC_F3,   KC_F10,  _______,
-                                   LOCK,    _______, DM_REC2, DF_BASE, _______, _______
+        _______, _______, KC_7,    KC_8,    KC_9,    XXXXXXX, XXXXXXX, _______, _______, _______, _______, _______,
+        _______, _______, KC_4,    KC_5,    KC_6,    KC_0,    XXXXXXX, _______, _______, _______, _______, _______,
+        _______, _______, KC_1,    KC_2,    KC_3,    XXXXXXX, XXXXXXX, _______, _______, _______, _______, _______,
+                                   _______, _______, _______, _______, _______, _______
     ),
 
 };
