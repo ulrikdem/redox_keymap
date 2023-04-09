@@ -12,7 +12,7 @@
 enum custom_keycodes {
     PLY2 = KC_APP + 1,
     LOCK,
-    DF_BASE,
+    CLEAR,
     REPEAT,
     SFT_SYM,
     SFT_SYM_MAX = SFT_SYM + (KC_QUES - KC_EXLM),
@@ -35,20 +35,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
 
     static bool lock_next = false;
-    static layer_state_t locked_layers = 0;
     if (keycode == LOCK) {
         if (pressed)
             lock_next = !lock_next;
         return false;
     } else if (lock_next && !pressed) {
         lock_next = false;
-        if (IN_RANGE(keycode, QK_LAYER_TAP)
-                && keymap_key_to_keycode(QK_LAYER_TAP_GET_LAYER(keycode), record->event.key) != KC_TRANSPARENT)
-            locked_layers |= 1UL << QK_LAYER_TAP_GET_LAYER(keycode);
         return false;
-    } else if (locked_layers && keycode == KC_ESC && pressed) {
-        layer_and(~locked_layers);
-        locked_layers = 0;
+    }
+
+    if (keycode == CLEAR) {
+        if (pressed) {
+            keyboard_post_init_user();
+            layer_clear();
+            clear_keyboard();
+            clear_oneshot_mods();
+            caps_word_off();
+            if (host_keyboard_led_state().caps_lock)
+                tap_code(KC_CAPS);
+            process_dynamic_macro(DM_RSTP, record);
+        }
         return false;
     }
 
@@ -58,12 +64,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         else if (record->tap.count && pressed
                 && is_oneshot_layer_active() && get_oneshot_layer() == QK_ONE_SHOT_LAYER_GET_LAYER(keycode))
             return false;
-    }
-
-    if (keycode == DF_BASE) {
-        if (!pressed)
-            keyboard_post_init_user();
-        return false;
     }
 
     static uint16_t last_keycode = KC_NO, repeating_keycode = KC_NO;
@@ -174,6 +174,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define LT_ENT LT(NUM, KC_ENT)
 #define LT_SPC LT(NAV, KC_SPC)
 #define LT_LOCK LT(FN, LOCK)
+#define LT_CLR LT(FN, CLEAR)
 
 #define MT_A LGUI_T(KC_A)
 #define MT_R LALT_T(KC_R)
@@ -194,7 +195,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSLS,
         KC_ESC,  MT_A,    MT_R,    MT_S,    MT_T,    KC_G,    KC_M,    MT_N,    MT_E,    MT_I,    MT_O,    KC_QUOT,
         OSL_MIR, KC_Z,    MT_X,    KC_C,    KC_D,    KC_V,    KC_K,    KC_H,    KC_COMM, MT_DOT,  KC_SLSH, OSL_MIR,
-                                   LT_LOCK, LT_ENT,  LT_SPC,  LT_LOCK, LT_SPC,  LT_ENT
+                                   LT_LOCK, LT_ENT,  LT_SPC,  LT_CLR,  LT_SPC,  LT_ENT
     ),
 
     LAYER(SFT,
@@ -274,7 +275,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT, KC_PAUS, KC_F7,   KC_F8,   KC_F9,   KC_F12,  _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, XXXXXXX, KC_SCRL, KC_F4,   KC_F5,   KC_F6,   KC_F11,  _______,
         _______, XXXXXXX, OSM_ALG, KC_CAPS, XXXXXXX, XXXXXXX, KC_PSCR, KC_F1,   KC_F2,   KC_F3,   KC_F10,  _______,
-                                   LOCK,    _______, _______, LOCK,    _______, _______
+                                   LOCK,    _______, _______, CLEAR,   _______, _______
     ),
 
 // Gaming Layers {{{1
@@ -287,7 +288,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_LALT, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_F7,   KC_F8,   KC_F9,   KC_F12,  KC_BSLS,
         KC_ESC,  KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_F4,   KC_F5,   KC_F6,   KC_F11,  KC_QUOT,
         OSL_MIR, KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    DM_REC2, KC_F1,   KC_F2,   KC_F3,   KC_F10,  OSL_MIR,
-                                   LT_GLOC, KC_SPC,  LT_PLY2, DF_BASE, LT_SPC,  KC_ENT
+                                   LT_GLOC, KC_SPC,  LT_PLY2, CLEAR,   LT_SPC,  KC_ENT
     ),
 
     LAYER(GAM_NUM,
