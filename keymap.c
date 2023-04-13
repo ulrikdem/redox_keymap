@@ -5,6 +5,8 @@
 #include QMK_KEYBOARD_H
 #include "process_caps_word.h"
 
+#define LAYER_BIT(layer) ((layer_state_t)1 << (layer))
+
 #define IN_RANGE(kc, range) ((uint16_t)(kc) >= range && (uint16_t)(kc) <= range##_MAX)
 
 // Custom Keycodes {{{1
@@ -231,19 +233,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Layer Changes {{{1
 
 void keyboard_post_init_user(void) {
-    default_layer_set(1UL << BASE);
+    default_layer_set(LAYER_BIT(BASE));
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     if (IS_LAYER_OFF_STATE(state, NUM))
-        state &= ~(1UL << KP);
+        state &= ~LAYER_BIT(KP);
     if (IS_LAYER_OFF_STATE(state, NAV))
-        state &= ~(1UL << MOU);
+        state &= ~LAYER_BIT(MOU);
 
     state = update_tri_layer_state(state, KP, SFT, KP_SFT);
 
     bool mirror = IS_LAYER_ON_STATE(state, MIR);
-    state &= (1UL << MIR) - 1;
+    state &= LAYER_BIT(MIR) - 1;
     if (mirror)
         state |= (state | default_layer_state | 1) << MIR;
 
@@ -292,7 +294,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     if (keycode == CLEAR) {
         if (pressed) {
-            default_layer_set(1UL << BASE);
+            default_layer_set(LAYER_BIT(BASE));
             layer_clear();
             clear_keyboard();
             clear_oneshot_mods();
