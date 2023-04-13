@@ -220,12 +220,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                    LT_GLOC, KC_SPC,  LT_PLY2, CLEAR,   LT_SPC,  KC_ENT
     ),
 
+#define LT_GSPC LT(BASE, KC_SPC)
+#define LT_MPLY LT(BASE + MIR, PLY2)
+
     LAYER(GAM_NUM,
-        _______, _______, _______, _______,                                     _______, _______, _______, _______,
+        KC_F1,   KC_F2,   KC_F3,   KC_F4,                                       _______, _______, _______, _______,
         _______, _______, KC_7,    KC_8,    KC_9,    XXXXXXX, XXXXXXX, _______, _______, _______, _______, _______,
         _______, _______, KC_4,    KC_5,    KC_6,    KC_0,    XXXXXXX, _______, _______, _______, _______, _______,
-        _______, _______, KC_1,    KC_2,    KC_3,    XXXXXXX, XXXXXXX, _______, _______, _______, _______, _______,
-                                   _______, _______, _______, _______, _______, _______
+        _______, _______, KC_1,    KC_2,    KC_3,    KC_A,    XXXXXXX, _______, _______, _______, _______, _______,
+                                   _______, LT_GSPC, LT_MPLY, _______, _______, _______
     ),
 
 };
@@ -303,6 +306,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code(KC_CAPS);
             process_dynamic_macro(DM_RSTP, record);
         }
+        return false;
+    }
+
+    if (IN_RANGE(keycode, QK_LAYER_TAP) && QK_LAYER_TAP_GET_LAYER(keycode) > MIR) {
+        layer_state_t mask = LAYER_BIT(QK_LAYER_TAP_GET_LAYER(keycode) - MIR) | LAYER_BIT(MIR);
+        if (pressed)
+            layer_or(mask);
+        else
+            layer_and(~mask);
         return false;
     }
 
