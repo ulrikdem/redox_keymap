@@ -10,89 +10,16 @@
 // Custom Keycodes {{{1
 
 enum custom_keycodes {
-    PLY2 = KC_APP + 1,
-    LOCK,
+    LOCK = KC_APP + 1,
     CLEAR,
     REPEAT,
+    PLY2,
     SFT_SYM,
     SFT_SYM_MAX = SFT_SYM + (KC_QUES - KC_EXLM),
 };
 _Static_assert((uint16_t)SFT_SYM_MAX < KC_MUTE);
 
 #define ENCODE_SYM(kc) ((kc) >= KC_EXLM && (kc) <= KC_QUES ? SFT_SYM + ((kc) - KC_EXLM) : (kc))
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    bool pressed = record->event.pressed;
-
-    if ((IN_RANGE(keycode, QK_LAYER_TAP) || IN_RANGE(keycode, QK_MOD_TAP)) && record->tap.count)
-        keycode &= 0xFF;
-    uint16_t orig_keycode = keycode;
-    if (IN_RANGE(keycode, SFT_SYM))
-        keycode = KC_EXLM + (keycode - SFT_SYM);
-    bool basic_or_mods = IN_RANGE(keycode, QK_BASIC) || IN_RANGE(keycode, QK_MODS);
-
-    if (!process_dynamic_macro(keycode == PLY2 ? DM_PLY2 : keycode, record) || keycode == PLY2)
-        return false;
-
-    static bool lock_next = false;
-    if (keycode == LOCK) {
-        if (pressed)
-            lock_next = !lock_next;
-        return false;
-    } else if (lock_next && !pressed) {
-        lock_next = false;
-        return false;
-    }
-
-    if (keycode == CLEAR) {
-        if (pressed) {
-            keyboard_post_init_user();
-            layer_clear();
-            clear_keyboard();
-            clear_oneshot_mods();
-            caps_word_off();
-            if (host_keyboard_led_state().caps_lock)
-                tap_code(KC_CAPS);
-            process_dynamic_macro(DM_RSTP, record);
-        }
-        return false;
-    }
-
-    if (IN_RANGE(keycode, QK_ONE_SHOT_LAYER)) {
-        if (!record->tap.count && !pressed)
-            clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
-        else if (record->tap.count && pressed
-                && is_oneshot_layer_active() && get_oneshot_layer() == QK_ONE_SHOT_LAYER_GET_LAYER(keycode))
-            return false;
-    }
-
-    static uint16_t last_keycode = KC_NO, repeating_keycode = KC_NO;
-    if (keycode == REPEAT) {
-        keycode = pressed ? last_keycode : repeating_keycode;
-        repeating_keycode = keycode;
-    } else if (basic_or_mods && pressed) {
-        last_keycode = keycode;
-        uint8_t mods = get_mods() | get_oneshot_mods();
-        if (mods & MOD_MASK_CTRL) last_keycode |= QK_LCTL;
-        if (mods & MOD_MASK_SHIFT) last_keycode |= QK_LSFT;
-        if (mods & MOD_BIT(KC_LALT)) last_keycode |= QK_LALT;
-        if (mods & MOD_BIT(KC_RALT)) last_keycode |= QK_RALT;
-        if (mods & MOD_MASK_GUI) last_keycode |= QK_LGUI;
-    }
-
-    if (keycode != orig_keycode) {
-        process_caps_word(keycode, record);
-        (pressed ? register_code16 : unregister_code16)(keycode);
-        return false;
-    }
-    return true;
-}
-
-bool caps_word_press_user(uint16_t keycode) {
-    if (keycode >= KC_A && keycode <= KC_Z)
-        add_weak_mods(MOD_BIT(KC_LSFT));
-    return (keycode >= KC_A && keycode <= KC_0) || keycode == KC_UNDS || keycode == KC_BSPC;
-}
 
 // Layout Macros {{{1
 
@@ -323,6 +250,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
+const key_override_t
+    past_override = ko_make_basic(MOD_MASK_SHIFT, KC_PAST, KC_PAST),
+    ppls_override = ko_make_basic(MOD_MASK_SHIFT, KC_PPLS, KC_PPLS),
+    **key_overrides = (const key_override_t *[]){&past_override, &ppls_override, NULL};
+
 void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
     if ((get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT && IS_LAYER_ON_STATE(layer_state | default_layer_state, BASE)) {
         if (IS_LAYER_OFF(SFT))
@@ -333,7 +265,77 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-const key_override_t
-    past_override = ko_make_basic(MOD_MASK_SHIFT, KC_PAST, KC_PAST),
-    ppls_override = ko_make_basic(MOD_MASK_SHIFT, KC_PPLS, KC_PPLS),
-    **key_overrides = (const key_override_t *[]){&past_override, &ppls_override, NULL};
+// Custom Processing {{{1
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    bool pressed = record->event.pressed;
+
+    if ((IN_RANGE(keycode, QK_LAYER_TAP) || IN_RANGE(keycode, QK_MOD_TAP)) && record->tap.count)
+        keycode &= 0xFF;
+    uint16_t orig_keycode = keycode;
+    if (IN_RANGE(keycode, SFT_SYM))
+        keycode = KC_EXLM + (keycode - SFT_SYM);
+    bool basic_or_mods = IN_RANGE(keycode, QK_BASIC) || IN_RANGE(keycode, QK_MODS);
+
+    if (!process_dynamic_macro(keycode == PLY2 ? DM_PLY2 : keycode, record) || keycode == PLY2)
+        return false;
+
+    static bool lock_next = false;
+    if (keycode == LOCK) {
+        if (pressed)
+            lock_next = !lock_next;
+        return false;
+    } else if (lock_next && !pressed) {
+        lock_next = false;
+        return false;
+    }
+
+    if (keycode == CLEAR) {
+        if (pressed) {
+            default_layer_set(1UL << BASE);
+            layer_clear();
+            clear_keyboard();
+            clear_oneshot_mods();
+            caps_word_off();
+            if (host_keyboard_led_state().caps_lock)
+                tap_code(KC_CAPS);
+            process_dynamic_macro(DM_RSTP, record);
+        }
+        return false;
+    }
+
+    if (IN_RANGE(keycode, QK_ONE_SHOT_LAYER)) {
+        if (!record->tap.count && !pressed)
+            clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
+        else if (record->tap.count && pressed
+                && is_oneshot_layer_active() && get_oneshot_layer() == QK_ONE_SHOT_LAYER_GET_LAYER(keycode))
+            return false;
+    }
+
+    static uint16_t last_keycode = KC_NO, repeating_keycode = KC_NO;
+    if (keycode == REPEAT) {
+        keycode = pressed ? last_keycode : repeating_keycode;
+        repeating_keycode = keycode;
+    } else if (basic_or_mods && pressed) {
+        last_keycode = keycode;
+        uint8_t mods = get_mods() | get_oneshot_mods();
+        if (mods & MOD_MASK_CTRL) last_keycode |= QK_LCTL;
+        if (mods & MOD_MASK_SHIFT) last_keycode |= QK_LSFT;
+        if (mods & MOD_BIT(KC_LALT)) last_keycode |= QK_LALT;
+        if (mods & MOD_BIT(KC_RALT)) last_keycode |= QK_RALT;
+        if (mods & MOD_MASK_GUI) last_keycode |= QK_LGUI;
+    }
+
+    if (keycode != orig_keycode) {
+        process_caps_word(keycode, record);
+        (pressed ? register_code16 : unregister_code16)(keycode);
+        return false;
+    }
+    return true;
+}
+
+bool caps_word_press_user(uint16_t keycode) {
+    if (keycode >= KC_A && keycode <= KC_Z)
+        add_weak_mods(MOD_BIT(KC_LSFT));
+    return (keycode >= KC_A && keycode <= KC_0) || keycode == KC_UNDS || keycode == KC_BSPC;
+}
