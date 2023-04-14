@@ -181,9 +181,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define OSM_CTL OSM(MOD_LCTL)
 #define OSM_ALG OSM(MOD_RALT)
 
+#define DF_GAME DF(GAM)
+#define DF_GNUM DF(GAM_NUM)
+
     LAYER(NAV,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
-        _______, DM_REC1, DM_PLY1, DF(GAM), XXXXXXX, KC_BRIU, KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
+        _______, DM_REC1, DM_PLY1, DF_GAME, DF_GNUM, KC_BRIU, KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, KC_BRID, KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
         _______, XXXXXXX, OSM_ALG, CW_TOGG, TG(MOU), XXXXXXX, KC_MUTE, KC_INS,  XXXXXXX, REPEAT,  KC_DEL,  _______,
                                    _______, _______, KC_SPC,  _______, KC_SPC,  _______
@@ -306,6 +309,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code(KC_CAPS);
             process_dynamic_macro(DM_RSTP, record);
         }
+        return false;
+    }
+
+    if (keycode == DF(GAM_NUM) && !pressed) {
+        default_layer_set(LAYER_BIT(GAM));
+        layer_on(GAM_NUM);
         return false;
     }
 
