@@ -284,7 +284,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     uint16_t orig_keycode = keycode;
     if (IN_RANGE(keycode, SFT_SYM))
         keycode = KC_EXLM + (keycode - SFT_SYM);
-    bool basic_or_mods = IN_RANGE(keycode, QK_BASIC) || IN_RANGE(keycode, QK_MODS);
 
     if (!process_dynamic_macro(keycode == PLY2 ? DM_PLY2 : keycode, record) || keycode == PLY2)
         return false;
@@ -340,7 +339,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (keycode == REPEAT) {
         keycode = pressed ? last_keycode : repeating_keycode;
         repeating_keycode = keycode;
-    } else if (basic_or_mods && pressed) {
+    } else if ((IN_RANGE(keycode, QK_BASIC) || IN_RANGE(keycode, QK_MODS)) && pressed) {
         last_keycode = keycode;
         uint8_t mods = get_mods() | get_oneshot_mods();
         if (mods & MOD_MASK_CTRL) last_keycode |= QK_LCTL;
