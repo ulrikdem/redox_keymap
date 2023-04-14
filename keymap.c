@@ -53,7 +53,7 @@ _Static_assert((uint16_t)SFT_SYM_MAX < KC_MUTE);
         k30, k31, k32, k33, k34, k35, k36, k37, k38, k39, k3a, k3b, \
                        k43, k44, k45, k46, k47, k48 \
     ), \
-    [layer + MIR] = LAYOUT_ulrikdem( \
+    [layer + MIRROR] = LAYOUT_ulrikdem( \
         M(k0b), M(k0a), M(k09), M(k08),                                 M(k03), M(k02), M(k01), M(k00), \
         M(k1b), M(k1a), M(k19), M(k18), M(k17), M(k16), M(k15), M(k14), M(k13), M(k12), M(k11), M(k10), \
         M(k2b), M(k2a), M(k29), M(k28), M(k27), M(k26), M(k25), M(k24), M(k23), M(k22), M(k21), M(k20), \
@@ -83,17 +83,17 @@ _Static_assert((uint16_t)SFT_SYM_MAX < KC_MUTE);
 // Layers {{{1
 
 enum layers {
-    GAM,
-    GAM_NUM,
+    GAME,
+    GAME_NUM,
     BASE,
     SFT,
     NUM,
     KP,
     KP_SFT,
     NAV,
-    MOU,
+    MOUSE,
     FN,
-    MIR,
+    MIRROR,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -117,7 +117,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define MT_O RGUI_T(KC_O)
 #define MT_DOT RALT_T(KC_DOT)
 
-#define OSL_MIR OSL(MIR)
+#define OSL_MIR OSL(MIRROR)
 
     LAYER(BASE,
         KC_GRV,  KC_EXLM, KC_CIRC, KC_DLR,                                      KC_UNDS, KC_MINS, KC_EQL,  KC_BSPC,
@@ -181,18 +181,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define OSM_CTL OSM(MOD_LCTL)
 #define OSM_ALG OSM(MOD_RALT)
 
-#define DF_GAME DF(GAM)
-#define DF_GNUM DF(GAM_NUM)
+#define TG_MOUS TG(MOUSE)
+#define DF_GAME DF(GAME)
+#define DF_GNUM DF(GAME_NUM)
 
     LAYER(NAV,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, DM_REC1, DM_PLY1, DF_GAME, DF_GNUM, KC_BRIU, KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, KC_BRID, KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
-        _______, XXXXXXX, OSM_ALG, CW_TOGG, TG(MOU), XXXXXXX, KC_MUTE, KC_INS,  XXXXXXX, REPEAT,  KC_DEL,  _______,
+        _______, XXXXXXX, OSM_ALG, CW_TOGG, TG_MOUS, XXXXXXX, KC_MUTE, KC_INS,  XXXXXXX, REPEAT,  KC_DEL,  _______,
                                    _______, _______, KC_SPC,  _______, KC_SPC,  _______
     ),
 
-    LAYER(MOU,
+    LAYER(MOUSE,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U, _______,
         _______, _______, _______, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D, _______,
@@ -212,10 +213,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // Gaming Layers {{{1
 
-#define LT_GLOC LT(GAM_NUM, LOCK)
+#define LT_GLOC LT(GAME_NUM, LOCK)
 #define LT_PLY2 LT(BASE, PLY2)
 
-    LAYER(GAM,
+    LAYER(GAME,
         KC_1,    KC_2,    KC_3,    KC_4,                                        KC_BTN1, KC_BTN3, KC_BTN2, KC_BSPC,
         KC_TAB,  KC_LALT, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_F7,   KC_F8,   KC_F9,   KC_F12,  KC_BSLS,
         KC_ESC,  KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_F4,   KC_F5,   KC_F6,   KC_F11,  KC_QUOT,
@@ -224,9 +225,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
 #define LT_GSPC LT(BASE, KC_SPC)
-#define LT_MPLY LT(BASE + MIR, PLY2)
+#define LT_MPLY LT(BASE + MIRROR, PLY2)
 
-    LAYER(GAM_NUM,
+    LAYER(GAME_NUM,
         KC_F1,   KC_F2,   KC_F3,   KC_F4,                                       _______, _______, _______, _______,
         _______, _______, KC_7,    KC_8,    KC_9,    XXXXXXX, XXXXXXX, _______, _______, _______, _______, _______,
         _______, _______, KC_4,    KC_5,    KC_6,    KC_0,    XXXXXXX, _______, _______, _______, _______, _______,
@@ -246,14 +247,14 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     if (IS_LAYER_OFF_STATE(state, NUM))
         state &= ~LAYER_BIT(KP);
     if (IS_LAYER_OFF_STATE(state, NAV))
-        state &= ~LAYER_BIT(MOU);
+        state &= ~LAYER_BIT(MOUSE);
 
     state = update_tri_layer_state(state, KP, SFT, KP_SFT);
 
-    bool mirror = IS_LAYER_ON_STATE(state, MIR);
-    state &= LAYER_BIT(MIR) - 1;
+    bool mirror = IS_LAYER_ON_STATE(state, MIRROR);
+    state &= LAYER_BIT(MIRROR) - 1;
     if (mirror)
-        state |= (state | default_layer_state | 1) << MIR;
+        state |= (state | default_layer_state | 1) << MIRROR;
 
     return state;
 }
@@ -312,14 +313,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    if (keycode == DF(GAM_NUM) && !pressed) {
-        default_layer_set(LAYER_BIT(GAM));
-        layer_on(GAM_NUM);
+    if (keycode == DF(GAME_NUM) && !pressed) {
+        default_layer_set(LAYER_BIT(GAME));
+        layer_on(GAME_NUM);
         return false;
     }
 
-    if (IN_RANGE(keycode, QK_LAYER_TAP) && QK_LAYER_TAP_GET_LAYER(keycode) > MIR) {
-        layer_state_t mask = LAYER_BIT(QK_LAYER_TAP_GET_LAYER(keycode) - MIR) | LAYER_BIT(MIR);
+    if (IN_RANGE(keycode, QK_LAYER_TAP) && QK_LAYER_TAP_GET_LAYER(keycode) > MIRROR) {
+        layer_state_t mask = LAYER_BIT(QK_LAYER_TAP_GET_LAYER(keycode) - MIRROR) | LAYER_BIT(MIRROR);
         if (pressed)
             layer_or(mask);
         else
