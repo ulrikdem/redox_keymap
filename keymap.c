@@ -254,6 +254,12 @@ void keyboard_post_init_user(void) {
     default_layer_set(LAYER_BIT(BASE));
 }
 
+layer_state_t default_layer_state_set_user(layer_state_t state) {
+    if (IS_LAYER_ON_STATE(state, GAME_NUM))
+        state |= LAYER_BIT(GAME);
+    return state;
+}
+
 layer_state_t layer_state_set_user(layer_state_t state) {
     if (IS_LAYER_OFF_STATE(state, NUM))
         state &= ~LAYER_BIT(KP);
@@ -320,12 +326,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code(KC_CAPS);
             process_dynamic_macro(DM_RSTP, record);
         }
-        return false;
-    }
-
-    if (keycode == DF(GAME_NUM) && !pressed) {
-        default_layer_set(LAYER_BIT(GAME));
-        layer_on(GAME_NUM);
         return false;
     }
 
