@@ -216,25 +216,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #define LT_GLOC LT(GAME_NUM, LOCK)
 #define LT_GESC LT(GAME_NAV, KC_ESC)
-#define LT_PLY2 LT(BASE, PLY2)
+#define LT_GPLY LT(BASE, PLY2)
 
     LAYER(GAME,
         KC_1,    KC_2,    KC_3,    KC_4,                                        KC_BTN1, KC_BTN3, KC_BTN2, KC_BSPC,
         KC_TAB,  KC_LALT, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_F7,   KC_F8,   KC_F9,   KC_F12,  KC_BSLS,
         LT_GESC, KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_F4,   KC_F5,   KC_F6,   KC_F11,  KC_QUOT,
         OSL_MIR, KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_F1,   KC_F2,   KC_F3,   KC_F10,  OSL_MIR,
-                                   LT_GLOC, KC_SPC,  LT_PLY2, CLEAR,   KC_SPC,  KC_ENT
+                                   LT_GLOC, KC_SPC,  LT_GPLY, CLEAR,   KC_SPC,  KC_ENT
     ),
 
-#define LT_GSPC LT(BASE, KC_SPC)
-#define LT_MPLY LT(BASE + MIRROR, PLY2)
+#define LT_NSPC LT(BASE, KC_SPC)
+#define LT_NLOC LT(GAME_NAV, LOCK)
+#define LT_NPLY LT(BASE + MIRROR, PLY2)
 
     LAYER(GAME_NUM,
         KC_F1,   KC_F2,   KC_F3,   KC_F4,                                       _______, _______, _______, _______,
         _______, _______, KC_7,    KC_8,    KC_9,    DM_REC2, XXXXXXX, _______, _______, _______, _______, _______,
         _______, _______, KC_4,    KC_5,    KC_6,    KC_0,    XXXXXXX, _______, _______, _______, _______, _______,
         _______, _______, KC_1,    KC_2,    KC_3,    KC_A,    XXXXXXX, _______, _______, _______, _______, _______,
-                                   _______, LT_GSPC, LT_MPLY, _______, _______, _______
+                                   LT_NLOC, LT_NSPC, LT_NPLY, _______, _______, _______
     ),
 
     LAYER(GAME_NAV,
