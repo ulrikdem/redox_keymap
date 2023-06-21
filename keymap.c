@@ -14,7 +14,6 @@
 enum custom_keycodes {
     LOCK = KC_APP + 1,
     CLEAR,
-    REPEAT,
     PLY2,
     SFT_SYM,
     SFT_SYM_MAX = SFT_SYM + (KC_QUES - KC_EXLM),
@@ -190,7 +189,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
         _______, DM_REC1, DM_PLY1, DF_GAME, DF_GNUM, KC_BRIU, KC_VOLU, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______,
         _______, OSM_GUI, OSM_ALT, OSM_SFT, OSM_CTL, KC_BRID, KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______,
-        _______, XXXXXXX, OSM_ALG, CW_TOGG, TG_MOUS, XXXXXXX, KC_MUTE, KC_INS,  XXXXXXX, REPEAT,  KC_DEL,  _______,
+        _______, XXXXXXX, OSM_ALG, CW_TOGG, TG_MOUS, XXXXXXX, KC_MUTE, KC_INS,  XXXXXXX, QK_REP,  KC_DEL,  _______,
                                    _______, _______, KC_SPC,  _______, KC_SPC,  _______
     ),
 
@@ -242,7 +241,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_F5,   KC_F6,   KC_F7,   KC_F8,                                       _______, _______, _______, _______,
         _______, _______, KC_HOME, KC_UP,   KC_END,  KC_VOLU, XXXXXXX, _______, _______, _______, _______, _______,
         _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD, XXXXXXX, _______, _______, _______, _______, _______,
-        _______, _______, REPEAT,  KC_BSPC, KC_DEL,  KC_MUTE, XXXXXXX, _______, _______, _______, _______, _______,
+        _______, _______, QK_REP,  KC_BSPC, KC_DEL,  KC_MUTE, XXXXXXX, _______, _______, _______, _______, _______,
                                    _______, KC_ENT,  _______, _______, _______, _______
     ),
 
@@ -344,20 +343,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         else if (record->tap.count && pressed
                 && is_oneshot_layer_active() && get_oneshot_layer() == QK_ONE_SHOT_LAYER_GET_LAYER(keycode))
             return false;
-    }
-
-    static uint16_t last_keycode = KC_NO, repeating_keycode = KC_NO;
-    if (keycode == REPEAT) {
-        keycode = pressed ? last_keycode : repeating_keycode;
-        repeating_keycode = keycode;
-    } else if ((IN_RANGE(keycode, QK_BASIC) || IN_RANGE(keycode, QK_MODS)) && pressed) {
-        last_keycode = keycode;
-        uint8_t mods = get_mods() | get_oneshot_mods();
-        if (mods & MOD_MASK_CTRL) last_keycode |= QK_LCTL;
-        if (mods & MOD_MASK_SHIFT) last_keycode |= QK_LSFT;
-        if (mods & MOD_BIT(KC_LALT)) last_keycode |= QK_LALT;
-        if (mods & MOD_BIT(KC_RALT)) last_keycode |= QK_RALT;
-        if (mods & MOD_MASK_GUI) last_keycode |= QK_LGUI;
     }
 
     if (keycode != orig_keycode) {
