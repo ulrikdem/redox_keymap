@@ -294,12 +294,8 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     bool pressed = record->event.pressed;
-
     if ((IN_RANGE(keycode, QK_LAYER_TAP) || IN_RANGE(keycode, QK_MOD_TAP)) && record->tap.count)
         keycode &= 0xFF;
-    uint16_t orig_keycode = keycode;
-    if (IN_RANGE(keycode, SFT_SYM))
-        keycode = KC_EXLM + (keycode - SFT_SYM);
 
     if (!process_dynamic_macro(keycode == PLY2 ? DM_PLY2 : keycode, record) || keycode == PLY2)
         return false;
@@ -314,7 +310,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    if (keycode == CLEAR) {
+    switch (keycode) {
+    case SFT_SYM...SFT_SYM_MAX:
+        keycode = KC_EXLM + (keycode - SFT_SYM);
+        process_caps_word(keycode, record);
+        (pressed ? register_code16 : unregister_code16)(keycode);
+        return false;
+
+    case CLEAR:
         if (pressed) {
             default_layer_set(LAYER_BIT(BASE));
             layer_clear();
@@ -326,30 +329,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             process_dynamic_macro(DM_RSTP, record);
         }
         return false;
-    }
 
-    if (IN_RANGE(keycode, QK_LAYER_TAP) && QK_LAYER_TAP_GET_LAYER(keycode) > MIRROR) {
-        layer_state_t mask = LAYER_BIT(QK_LAYER_TAP_GET_LAYER(keycode) - MIRROR) | LAYER_BIT(MIRROR);
-        if (pressed)
-            layer_or(mask);
-        else
-            layer_and(~mask);
-        return false;
-    }
+    case QK_LAYER_TAP...QK_LAYER_TAP_MAX:
+        if (QK_LAYER_TAP_GET_LAYER(keycode) > MIRROR) {
+            layer_state_t mask = LAYER_BIT(QK_LAYER_TAP_GET_LAYER(keycode) - MIRROR) | LAYER_BIT(MIRROR);
+            if (pressed)
+                layer_or(mask);
+            else
+                layer_and(~mask);
+            return false;
+        }
+        break;
 
-    if (IN_RANGE(keycode, QK_ONE_SHOT_LAYER)) {
+    case QK_ONE_SHOT_LAYER...QK_ONE_SHOT_LAYER_MAX:
         if (!record->tap.count && !pressed)
             clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
         else if (record->tap.count && pressed
                 && is_oneshot_layer_active() && get_oneshot_layer() == QK_ONE_SHOT_LAYER_GET_LAYER(keycode))
             return false;
+        break;
     }
 
-    if (keycode != orig_keycode) {
-        process_caps_word(keycode, record);
-        (pressed ? register_code16 : unregister_code16)(keycode);
-        return false;
-    }
     return true;
 }
 
