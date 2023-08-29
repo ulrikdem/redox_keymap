@@ -326,7 +326,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             caps_word_off();
             if (host_keyboard_led_state().caps_lock)
                 tap_code(KC_CAPS);
-            process_dynamic_macro(DM_RSTP, record);
+            dynamic_macro_stop_recording();
         }
         return false;
 
