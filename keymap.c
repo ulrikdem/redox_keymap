@@ -151,8 +151,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     LAYER(NUM,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
-        _______, XXXXXXX, KC_LBRC, KC_RBRC, KC_APP,  XXXXXXX, TG(KP),  KC_7,    KC_8,    KC_9,    _______, _______,
-        _______, MT_LT,   MT_LPRN, MT_RPRN, MT_GT,   XXXXXXX, XXXXXXX, MT_4,    MT_5,    MT_6,    MT_0,    _______,
+        _______, XXXXXXX, KC_LBRC, KC_RBRC, KC_APP,  KC_UP,   TG(KP),  KC_7,    KC_8,    KC_9,    _______, _______,
+        _______, MT_LT,   MT_LPRN, MT_RPRN, MT_GT,   KC_DOWN, XXXXXXX, MT_4,    MT_5,    MT_6,    MT_0,    _______,
         _______, XXXXXXX, MT_LCBR, KC_RCBR, KC_DOT,  KC_COMM, XXXXXXX, KC_1,    KC_2,    MT_3,    _______, _______,
                                    _______, KC_ENT,  _______, _______, _______, KC_ENT
     ),
