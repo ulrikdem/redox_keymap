@@ -218,9 +218,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     LAYER(GAME,
         KC_1,    KC_2,    KC_3,    KC_4,                                        KC_BTN1, KC_BTN3, KC_BTN2, KC_BSPC,
-        KC_TAB,  KC_LALT, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_F7,   KC_F8,   KC_F9,   KC_F12,  KC_BSLS,
-        G_ESC,   KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_F4,   KC_F5,   KC_F6,   KC_F11,  KC_QUOT,
-        OSL_MIR, KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_F1,   KC_F2,   KC_F3,   KC_F10,  OSL_MIR,
+        KC_TAB,  KC_LALT, KC_Q,    KC_W,    KC_E,    KC_R,    KC_VOLU, KC_F7,   KC_F8,   KC_F9,   KC_F12,  KC_BSLS,
+        G_ESC,   KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,    KC_MUTE, KC_F4,   KC_F5,   KC_F6,   KC_F11,  KC_QUOT,
+        OSL_MIR, KC_LCTL, KC_X,    KC_C,    KC_T,    KC_G,    KC_VOLD, KC_F1,   KC_F2,   KC_F3,   KC_F10,  OSL_MIR,
                                    G_LOCK,  KC_SPC,  G_PLY2,  CLEAR,   KC_SPC,  KC_ENT
     ),
 
@@ -230,17 +230,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     LAYER(GAME_NUM,
         KC_F1,   KC_F2,   KC_F3,   KC_F4,                                       _______, _______, _______, _______,
-        _______, _______, KC_7,    KC_8,    KC_9,    DM_REC2, XXXXXXX, _______, _______, _______, _______, _______,
-        _______, _______, KC_4,    KC_5,    KC_6,    KC_0,    XXXXXXX, _______, _______, _______, _______, _______,
-        _______, _______, KC_1,    KC_2,    KC_3,    KC_A,    XXXXXXX, _______, _______, _______, _______, _______,
+        _______, _______, KC_7,    KC_8,    KC_9,    DM_REC2, _______, _______, _______, _______, _______, _______,
+        _______, _______, KC_4,    KC_5,    KC_6,    KC_0,    _______, _______, _______, _______, _______, _______,
+        _______, _______, KC_1,    KC_2,    KC_3,    KC_A,    _______, _______, _______, _______, _______, _______,
                                    GN_LOCK, GN_SPC,  GN_PLY2, _______, _______, _______
     ),
 
     LAYER(GAME_NAV,
         KC_F5,   KC_F6,   KC_F7,   KC_F8,                                       _______, _______, _______, _______,
-        _______, _______, KC_HOME, KC_UP,   KC_END,  KC_VOLU, XXXXXXX, _______, _______, _______, _______, _______,
-        _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_MUTE, XXXXXXX, _______, _______, _______, _______, _______,
-        _______, _______, QK_REP,  KC_BSPC, KC_DEL,  KC_VOLD, XXXXXXX, _______, _______, _______, _______, _______,
+        _______, _______, KC_HOME, KC_UP,   KC_END,  KC_VOLU, _______, _______, _______, _______, _______, _______,
+        _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_MUTE, _______, _______, _______, _______, _______, _______,
+        _______, _______, QK_REP,  KC_BSPC, KC_DEL,  KC_VOLD, _______, _______, _______, _______, _______, _______,
                                    _______, KC_ENT,  _______, _______, _______, _______
     ),
 
