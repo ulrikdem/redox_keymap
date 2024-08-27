@@ -67,8 +67,8 @@ _Static_assert((uint16_t)SFT_SYM_MAX < KC_MUTE);
     MIRROR_KEY(kc, KC_LT, KC_GT) \
     MIRROR_KEY(kc, KC_LEFT, KC_RGHT) \
     MIRROR_KEY(kc, KC_HOME, KC_END) \
-    MIRROR_KEY(kc, KC_MS_L, KC_MS_R) \
-    MIRROR_KEY(kc, KC_WH_L, KC_WH_R) \
+    MIRROR_KEY(kc, MS_LEFT, MS_RGHT) \
+    MIRROR_KEY(kc, MS_WHLL, MS_WHLR) \
     (kc) \
 )
 
@@ -194,10 +194,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     LAYER(MOUSE,
         _______, _______, _______, _______,                                     _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U, _______,
-        _______, _______, _______, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D, _______,
-        _______, _______, _______, _______, _______, _______, _______, KC_BTN4, XXXXXXX, KC_BTN5, KC_BTN3, _______,
-                                   _______, _______, _______, _______, KC_BTN1, KC_BTN2
+        _______, _______, _______, _______, _______, _______, _______, MS_WHLL, MS_UP,   MS_WHLR, MS_WHLU, _______,
+        _______, _______, _______, _______, _______, _______, _______, MS_LEFT, MS_DOWN, MS_RGHT, MS_WHLD, _______,
+        _______, _______, _______, _______, _______, _______, _______, MS_BTN4, XXXXXXX, MS_BTN5, MS_BTN3, _______,
+                                   _______, _______, _______, _______, MS_BTN1, MS_BTN2
     ),
 
 // Function Layer {{{1
@@ -217,7 +217,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define G_PLY2 LT(BASE, PLY2)
 
     LAYER(GAME,
-        KC_1,    KC_2,    KC_3,    KC_4,                                        KC_BTN1, KC_BTN3, KC_BTN2, KC_BSPC,
+        KC_1,    KC_2,    KC_3,    KC_4,                                        MS_BTN1, MS_BTN3, MS_BTN2, KC_BSPC,
         KC_TAB,  KC_LALT, KC_Q,    KC_W,    KC_E,    KC_R,    KC_VOLU, KC_F7,   KC_F8,   KC_F9,   KC_F12,  KC_BSLS,
         G_ESC,   KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,    KC_MUTE, KC_F4,   KC_F5,   KC_F6,   KC_F11,  KC_QUOT,
         OSL_MIR, KC_LCTL, KC_X,    KC_C,    KC_T,    KC_G,    KC_VOLD, KC_F1,   KC_F2,   KC_F3,   KC_F10,  OSL_MIR,
@@ -277,7 +277,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 const key_override_t
     past_override = ko_make_basic(MOD_MASK_SHIFT, KC_PAST, KC_PAST),
     ppls_override = ko_make_basic(MOD_MASK_SHIFT, KC_PPLS, KC_PPLS),
-    **key_overrides = (const key_override_t *[]){&past_override, &ppls_override, NULL};
+    *key_overrides[] = {&past_override, &ppls_override, NULL};
 
 void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
     if ((get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT && IS_LAYER_ON_STATE(layer_state | default_layer_state, BASE)) {
